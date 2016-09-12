@@ -1,0 +1,10 @@
+body {
+  font-family: Helvetica, sans-serif, Tahoma, sans-serif;
+  font-size: 100%;
+  color: #666;
+  width: 500px;
+}
+
+.hidden {
+  display: none;
+}

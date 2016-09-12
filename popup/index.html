@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+  <head>
+    <title>ShareSafe</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <div id="app"></div>
+
+    <template id="js-template">
+      <div id="js-current-data" class="{{!currentPassword}} hidden {{/!currentPassword}}">
+        <h4>Current stored pass</h4>
+        <span>{{=currentPassword}}</span>
+        <a id="js-set-new-password" href="#">Set a new one</a>
+      </div>
+
+      <form action="/" id="js-set-password" class="{{currentPassword}} hidden {{/currentPassword}}">
+        <input type="text" name="password" autocomplete="off" required>
+        <input type="submit" value="Set password">
+      </form>
+
+      <hr />
+      <br />
+
+      <div class="share">
+        <button id='js-share-session'>Share current session</button>
+        <textarea name="data" id="js-shared-session" placeholder="Session" cols="30" rows="4"></textarea>
+      </div>
+
+      <hr />
+      <br />
+
+      <div class="restore">
+        <form action="/" id="js-restore-session">
+          <textarea name="data" id="" placeholder="Session" cols="30" rows="10"></textarea>
+          <input type="text" name="password" placeholder="password" />
+          <input type="submit" value="Restore session" />
+        </form>
+      </div>
+    </template>
+
+    <script src="aes-min.js"></script>
+    <script src="t.min.js"></script>
+    <script src="configuration.js"></script>
+    <script src="main.js"></script>
+  </body>
+</html>
+

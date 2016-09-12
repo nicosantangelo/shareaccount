@@ -1,0 +1,24 @@
+{
+  "manifest_version": 2,
+  "name": "ShareSafe",
+  "description": "Share your current session securely",
+  "short_name": "Share safe",
+  "version": "0.0.1",
+  "icons": {
+    "18": "icons/18.png",
+    "19": "icons/19.png",
+    "38": "icons/38.png",
+    "48": "icons/48.png",
+    "128": "icons/128.png"
+  },
+  "browser_action": {
+    "default_icon": "icons/19.png",
+    "default_popup": "popup/index.html"
+  },
+  "permissions": [ "tabs", "storage", "\u003Call_urls>", "cookies", "clipboardWrite" ],
+
+   "background": {
+      "page": "background.html"
+   },
+  "web_accessible_resources": [""]
+}
