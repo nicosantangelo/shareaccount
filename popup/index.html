@@ -5,38 +5,42 @@
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
-    <div id="app"></div>
+    <h2 class="title">ShareSafe</h2>
+
+    <div id="app" class="app"></div>
+
 
     <template id="js-template">
-      <div id="js-current-data" class="{{!currentPassword}} hidden {{/!currentPassword}}">
-        <h4>Current stored pass</h4>
-        <span>{{=currentPassword}}</span>
-        <a id="js-set-new-password" href="#">Set a new one</a>
-      </div>
+      <section id="js-current-data" class="current-password">
+        <div>Current stored pass</div>
 
-      <form action="/" id="js-set-password" class="{{currentPassword}} hidden {{/currentPassword}}">
-        <input type="text" name="password" autocomplete="off" required>
-        <input type="submit" value="Set password">
-      </form>
-
-      <hr />
-      <br />
-
-      <div class="share">
-        <button id='js-share-session'>Share current session</button>
-        <textarea name="data" id="js-shared-session" placeholder="Session" cols="30" rows="4"></textarea>
-      </div>
-
-      <hr />
-      <br />
-
-      <div class="restore">
-        <form action="/" id="js-restore-session">
-          <textarea name="data" id="" placeholder="Session" cols="30" rows="10"></textarea>
-          <input type="text" name="password" placeholder="password" />
-          <input type="submit" value="Restore session" />
+        <form action="/" id="js-set-password">
+          <input type="password" name="password" value="{{=currentPassword}}" autocomplete="off" required />
         </form>
-      </div>
+
+        <a id="js-toggle-password-visible" href="#">Show</a>
+        <a id="js-reset-password" href="#">Reset</a>
+        <a id="js-set-new-password" href="#">Set</a>
+      </section>
+
+      <hr />
+
+      <section class="share">
+        <button id="js-share-session" class="btn">Share current session</button>
+        <pre id="js-shared-session" class="hidden"></pre>
+      </section>
+
+      <hr />
+
+      <section class="restore">
+        <div>Restore session</div>
+        <form action="/" id="js-restore-session">
+          <textarea name="data" id="" placeholder="Session" rows="10"></textarea>
+          <div>
+            <input type="text" name="password" placeholder="password" /><input type="submit" class="btn" value="Restore session" />
+          </div>
+        </form>
+      </section>
     </template>
 
     <script src="aes-min.js"></script>

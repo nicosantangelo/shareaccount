@@ -1,23 +1,47 @@
 /* Globals: CryptoJS, configuration, t */ 
 
 (function() {
+  let template = new t(document.getElementById('js-template').innerHTML)
+
   configuration.get('password', function(currentPassword) {
     render(currentPassword)
-    addEvents()
   })
 
+  function render(currentPassword) {
+    document.getElementById('app').innerHTML = template.render({ currentPassword })
+    addEvents()
+  }
+
   function addEvents() {
-    addEventListener('js-set-new-password', 'click', () =>
-      document.getElementById('js-set-password').classList.remove('hidden')
+    addEventListener('js-toggle-password-visible', 'click', () => {
+      let passwordInput = document.getElementById('js-set-password')[0]
+      let type = passwordInput.type
+
+      passwordInput.type     = { password: 'text', text: 'password' }[type]
+      event.target.innerHTML = { password: 'Hide', text: 'Show'     }[type]
+    })
+
+    addEventListener('js-reset-password', 'click', () =>
+      configuration.get('password', currentPassword => document.getElementById('js-set-password')[0].value = currentPassword)
     )
-    
+
+    addEventListener('js-set-new-password', 'click', () =>
+      document.getElementById('js-set-password').dispatchEvent(new CustomEvent('submit'))
+    )
+
     addEventListener('js-set-password', 'submit', event => {
       let formData = new FormData(event.currentTarget)
       let password = formData.get('password')
 
       configuration.set({ password: password })
       render(password)
+
+      let newPasswordLink = document.getElementById('js-set-new-password')
+      newPasswordLink.innerHTML = '&#10004;'
+      setTimeout(() => newPasswordLink.innerHTML = 'Set', 1000)
     })
+
+    //---------------------------
 
     addEventListener('js-share-session', 'click', () => {
       configuration.get('password', function(currentPassword) {
@@ -27,11 +51,13 @@
         }
           
         encryptCookies(currentPassword, encryptedData =>
-          document.getElementById('js-shared-session').innerHTML = encryptedData
+          show('js-shared-session').innerHTML = encryptedData
         )
       })
     })
 
+    //---------------------------
+    
     addEventListener('js-restore-session', 'submit', event => {
       let formData = new FormData(event.currentTarget)
       let data = formData.get('data')
@@ -80,12 +106,6 @@
   // --------------------------------------------------------------------
   // Utils
 
-  let template = new t(document.getElementById('js-template').innerHTML)
-
-  function render(currentPassword) {
-    document.getElementById('app').innerHTML = template.render({ currentPassword })
-  }
-
   function addEventListener(id, event, fn) {
     document.getElementById(id).addEventListener(event, preventDefault(fn), false)
   }
@@ -95,6 +115,12 @@
       event.preventDefault()
       fn(event)
     }
+  }
+
+  function show(id) {
+    let el = document.getElementById(id)
+    el.classList.remove('hidden')
+    return el
   }
 })()
   

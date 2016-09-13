@@ -1,10 +1,138 @@
 body {
   font-family: Helvetica, sans-serif, Tahoma, sans-serif;
   font-size: 100%;
-  color: #666;
-  width: 500px;
+  margin: 0;
+  background: #e1e3e4;
+  color: #313131;
+  box-sizing: border-box;
+}
+
+a {
+  color: #3c948b;
+  outline: none;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #313131;
+}
+
+pre {
+  word-wrap: break-word;
+  white-space: normal;
+}
+
+input {
+  height: 2em;
+  padding: 0 4px;
+  box-sizing: border-box;
+}
+
+textarea {
+  color: #313131;
+  border: none;
+  box-shadow: none;
+  box-sizing: border-box;
+}
+
+section {
+  margin: 25px 0;
+}
+
+/* Main */
+
+.title {
+  margin: 0;
+  padding: 5px 0;
+  text-align: center;
+  text-transform: uppercase;
+  color: #faf9f9;
+  background-color: #55585d;
+}
+
+.app {
+  width: 15em;
+  max-height: 40em;
+  padding: 0 1em;
+}
+
+.btn {
+  padding: 0 20px;
+  line-height: 20px;
+  border: none;
+  outline: none;
+  font-weight: 500;
+  color: #fff;
+  background: #3c948b;
+  text-transform: uppercase;
+  cursor: pointer;
+  display: block;
+}
+
+.btn:hover {
+  background: #313131;
 }
 
 .hidden {
   display: none;
+}
+
+
+/* Share */
+
+.current-password {
+  text-align: center;
+}
+
+.current-password input[name="password"] {
+  width: 100%;
+  margin: 8px 0;
+}
+
+.current-password a {
+  width: 32%;
+  font-size: smaller;
+  display: inline-block;
+}
+
+
+/* Share */
+
+.share .btn {
+  margin: auto;
+}
+
+.share pre {
+  max-height: 15em;
+  padding: 0 8px;
+  border-right: 1px solid #666;
+  border-left: 1px solid #666;
+  overflow: auto;
+}
+
+
+/* Restore */
+
+.restore {
+  text-align: center;
+}
+
+.restore form {
+  width: 100%;
+}
+
+.restore form textarea {
+  width: 100%;
+  margin: 8px 0;
+}
+
+.restore input[name="password"] {
+  width: 50%;
+} 
+
+.restore .btn {
+  width: 47%;
+  margin-left: 5px;
+  padding: 0 5px;
+  display: inline-block;
 }
