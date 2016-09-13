@@ -15,10 +15,5 @@
     "default_icon": "icons/19.png",
     "default_popup": "popup/index.html"
   },
-  "permissions": [ "tabs", "storage", "\u003Call_urls>", "cookies", "clipboardWrite" ],
-
-   "background": {
-      "page": "background.html"
-   },
-  "web_accessible_resources": [""]
+  "permissions": [ "tabs", "storage", "\u003Call_urls>", "cookies" ]
 }

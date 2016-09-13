@@ -2,7 +2,7 @@
   "name": "ShareSafe",
   "version": "1.0.0",
   "description": "Share your current session securely",
-  "main": "content.js",
+  "main": "popup/main.js",
   "author": "Nicolás Santángelo",
   "license": "MIT",
   "scripts": {},
