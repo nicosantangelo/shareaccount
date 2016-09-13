@@ -11,6 +11,7 @@ a {
   color: #3c948b;
   outline: none;
   text-decoration: none;
+  font-size: 13px;
 }
 
 a:hover {
@@ -43,7 +44,7 @@ section {
 
 .title {
   margin: 0;
-  padding: 5px 0;
+  padding: 6px 0;
   text-align: center;
   text-transform: uppercase;
   color: #faf9f9;
@@ -91,7 +92,6 @@ section {
 
 .current-password a {
   width: 32%;
-  font-size: smaller;
   display: inline-block;
 }
 
@@ -102,7 +102,11 @@ section {
   margin: auto;
 }
 
-.share pre {
+.share .shared-session {
+  text-align: center;
+}
+
+.share .shared-session  pre {
   max-height: 15em;
   padding: 0 8px;
   border-right: 1px solid #666;
@@ -110,6 +114,10 @@ section {
   overflow: auto;
 }
 
+.share .shared-session a {
+  width: 49%;
+  display: inline-block;
+}
 
 /* Restore */
 

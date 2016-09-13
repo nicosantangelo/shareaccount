@@ -12,10 +12,10 @@
 
     <template id="js-template">
       <section id="js-current-data" class="current-password">
-        <div>Current stored pass</div>
+        <div>Current password</div>
 
         <form action="/" id="js-set-password">
-          <input type="password" name="password" value="{{=currentPassword}}" autocomplete="off" required />
+          <input type="password" name="password" value="{{=currentPassword}}" placeholder="Type a password to encrypt your session" autocomplete="off" required />
         </form>
 
         <a id="js-toggle-password-visible" href="#">Show</a>
@@ -25,19 +25,23 @@
 
       <hr />
 
-      <section class="share">
-        <button id="js-share-session" class="btn">Share current session</button>
-        <pre id="js-shared-session" class="hidden"></pre>
+      <section class="share {{!currentPassword}} hidden {{/!currentPassword}}">
+        <button id="js-share-session-btn" class="btn">Share current session</button>
+        <div id="js-shared-session" class="shared-session hidden">
+          <pre></pre>
+          <a id="js-session-select" href="#">Select</a>
+          <a id="js-session-hide" href="#">Hide</a>
+        </div>
       </section>
 
-      <hr />
+      <hr class="{{!currentPassword}} hidden {{/!currentPassword}}" />
 
       <section class="restore">
         <div>Restore session</div>
         <form action="/" id="js-restore-session">
-          <textarea name="data" id="" placeholder="Session" rows="10"></textarea>
+          <textarea name="data" id="" placeholder="Encrypted session" rows="10"></textarea>
           <div>
-            <input type="text" name="password" placeholder="password" /><input type="submit" class="btn" value="Restore session" />
+            <input type="text" name="password" placeholder="Password" /><input type="submit" class="btn" value="Restore session" />
           </div>
         </form>
       </section>

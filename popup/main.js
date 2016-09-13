@@ -43,21 +43,34 @@
 
     //---------------------------
 
-    addEventListener('js-share-session', 'click', () => {
+    addEventListener('js-share-session-btn', 'click', () => {
       configuration.get('password', function(currentPassword) {
         if (! currentPassword) {
           console.error('No sir')
           return
         }
           
-        encryptCookies(currentPassword, encryptedData =>
-          show('js-shared-session').innerHTML = encryptedData
-        )
+        encryptCookies(currentPassword, encryptedData => {
+          let sharedSession = show('js-shared-session') 
+          sharedSession.querySelector('pre').innerHTML = encryptedData
+        })
       })
     })
 
+    addEventListener('js-session-hide', 'click', () => hide('js-shared-session'))
+
+    addEventListener('js-session-select', 'click', () => {
+      let session = document.querySelector('#js-shared-session pre')
+      let range   = document.createRange()
+      range.selectNodeContents(session)
+
+      let sel = window.getSelection()
+      sel.removeAllRanges()
+      sel.addRange(range)
+    })
+
     //---------------------------
-    
+
     addEventListener('js-restore-session', 'submit', event => {
       let formData = new FormData(event.currentTarget)
       let data = formData.get('data')
@@ -65,6 +78,8 @@
 
       let decryptedData = CryptoJS.AES.decrypt(data, password).toString(CryptoJS.enc.Utf8)
       let { cookies, url } = JSON.parse(decryptedData)
+
+      event.currentTarget.reset()
 
       cookies.forEach(c => {
         let domain = c.domain[0] === '.' ? c.domain.slice(1) : c.domain
@@ -120,6 +135,12 @@
   function show(id) {
     let el = document.getElementById(id)
     el.classList.remove('hidden')
+    return el
+  }
+
+  function hide(id) {
+    let el = document.getElementById(id)
+    el.classList.add('hidden')
     return el
   }
 })()
