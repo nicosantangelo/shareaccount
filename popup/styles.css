@@ -11,7 +11,7 @@ a {
   color: #4A90E2;
   outline: none;
   text-decoration: none;
-  font-size: 13px;
+  font-size: 0.8em;
 }
 
 a:hover {
@@ -24,23 +24,30 @@ pre {
 }
 
 input {
-  height: 2em;
-  padding: 0 4px;
-  border: 1px solid rgba(216, 216, 216, 0.1);
+  height: 3em;
+  padding: 0 8px;
+  border-radius: 5px;
   box-shadow: none;
   box-sizing: border-box;
 }
 
 textarea {
-  border: none;
   box-shadow: none;
   padding: 10px 8px;
   box-sizing: border-box;
 }
 
 input, textarea {
+  width: 100%;
+  font-size: 0.7em;
   color: rgba(34, 34, 40, 0.7);
   background-color: rgba(216, 216, 216, 0.2);
+  border: 1px solid rgba(216, 216, 216, 0.3);
+}
+
+input:focus {
+  outline: -webkit-focus-ring-color auto 2px;
+  outline-color: #4A90E2;
 }
 
 section {
@@ -56,7 +63,9 @@ section {
 }
 
 .btn {
-  padding: 0 20px;
+  width: 100%;
+  padding: 6px 20px;
+
   line-height: 20px;
   border-radius: 20px;
   border: none;
@@ -76,19 +85,25 @@ section {
   background: #3483DE;
 }
 
+.text-center {
+  text-align: center;
+}
+
 .hidden {
   display: none;
+}
+
+.title {
+  font-size: 1.1em;
 }
 
 
 /* Share */
 
 .current-password {
-  text-align: center;
 }
 
 .current-password input[name="password"] {
-  width: 100%;
   margin: 8px 0;
 }
 
@@ -101,21 +116,17 @@ section {
 /* Share */
 
 .share .btn {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  margin: auto;
+  margin-top: 8px;
 }
 
 .share .shared-session {
-  text-align: center;
 }
 
 .share .shared-session  pre {
   max-height: 15em;
   padding: 0 8px;
-  border-right: 1px solid #666;
-  border-left: 1px solid #666;
   overflow: auto;
+  color: rgba(34, 34, 40, 0.7);
 }
 
 .share .shared-session a {
@@ -126,25 +137,19 @@ section {
 /* Restore */
 
 .restore {
-  text-align: center;
 }
 
 .restore form {
-  width: 100%;
 }
 
 .restore form textarea {
-  width: 100%;
-  margin: 8px 0;
+  margin-top: 8px;
 }
 
 .restore input[name="password"] {
-  width: 50%;
+  margin: 8px 0 12px;
 } 
 
 .restore .btn {
-  width: 47%;
-  margin-left: 5px;
-  padding: 0 5px;
-  display: inline-block;
+  margin: 0 auto;
 }
