@@ -3,7 +3,7 @@
   "name": "ShareSafe",
   "description": "Share your current session securely",
   "short_name": "Share safe",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "icons": {
     "18": "icons/18.png",
     "19": "icons/19.png",
