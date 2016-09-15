@@ -8,14 +8,14 @@ body {
 }
 
 a {
-  color: #4A90E2;
+  color: #276A94;
   outline: none;
   text-decoration: none;
   font-size: 0.8em;
 }
 
 a:hover {
-  color: #3483DE;
+  color: #31729a;
 }
 
 pre {
@@ -45,13 +45,17 @@ input, textarea {
   border: 1px solid rgba(216, 216, 216, 0.3);
 }
 
-input:focus {
+input:focus, textarea:focus {
   outline: -webkit-focus-ring-color auto 2px;
-  outline-color: #4A90E2;
+  outline-color: #276A94;
 }
 
 section {
   margin: 25px 0;
+}
+
+hr {
+  width: 50%;
 }
 
 /* Main */
@@ -74,7 +78,7 @@ section {
   font-weight: 500;
   text-transform: uppercase;
   
-  background-color: #4A90E2;
+  background-color: #276A94;
   color: #FFF;
 
   cursor: pointer;
@@ -82,7 +86,7 @@ section {
 }
 
 .btn:hover {
-  background: #3483DE;
+  background: #31729a;
 }
 
 .text-center {
