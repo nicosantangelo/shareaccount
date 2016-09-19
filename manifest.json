@@ -15,5 +15,5 @@
     "default_icon": "icons/19.png",
     "default_popup": "popup/index.html"
   },
-  "permissions": [ "tabs", "storage", "\u003Call_urls>", "cookies" ]
+  "permissions": [ "tabs", "storage", "cookies", "http://*/*", "https://*/*" ]
 }
