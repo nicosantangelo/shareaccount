@@ -50,9 +50,12 @@
         if (! currentPassword) return
 
         chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
-          cookieManager.get(tabs[0].url, function(values) {
+          let url = tabs[0].url
+
+          cookieManager.get(url, function(cookies) {
             let sharedSession = show('js-shared-session')
-            sharedSession.querySelector('pre').innerHTML = aes.encrypt(values, currentPassword)
+            let data = { url, cookies }
+            sharedSession.querySelector('pre').innerHTML = aes.encrypt(data, currentPassword)
           })
         })
       })
@@ -79,10 +82,10 @@
 
       event.currentTarget.reset()
 
-      data = aes.decrypt(data, password)
+      let { url, cookies } = aes.decrypt(data, password)
 
-      cookieManager.set(data)
-      chrome.tabs.create({ url: data.url })
+      cookieManager.set(url, cookies)
+      chrome.tabs.create({ url })
     })
   }
 

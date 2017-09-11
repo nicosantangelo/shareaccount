@@ -9,22 +9,15 @@
     get: function(url, callback) {
       chrome.cookies.getAll({ url }, function(cookies) {
         let newCookies = cookies.map(cookie => pick(cookie, properties))
-
-        callback({
-          url,
-          cookies: newCookies
-        })
+        callback(newCookies)
       })
     },
 
-    set: function({ url, cookies }) {
+    set: function(url, cookies) {
       cookies.forEach(function(cookie) {
         let newCookie = Object.assign({ url }, pick(cookie, properties))
-
         chrome.cookies.set(newCookie)
       })
-
-      return url
     }
   }
 
