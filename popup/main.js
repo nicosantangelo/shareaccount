@@ -1,6 +1,8 @@
-/* Globals: CryptoJS, configuration, t */ 
+/* globals configuration, aes, cookieManager, t */
 
 (function() {
+  'use strict'
+
   let template = new t(document.getElementById('js-template').innerHTML)
 
   configuration.get('password', function(currentPassword) {
@@ -45,14 +47,13 @@
 
     addEventListener('js-share-session-btn', 'click', () => {
       configuration.get('password', function(currentPassword) {
-        if (! currentPassword) {
-          console.error('No sir')
-          return
-        }
-          
-        encryptCookies(currentPassword, encryptedData => {
-          let sharedSession = show('js-shared-session') 
-          sharedSession.querySelector('pre').innerHTML = encryptedData
+        if (! currentPassword) return
+
+        chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
+          cookieManager.get(tabs[0].url, function(values) {
+            let sharedSession = show('js-shared-session')
+            sharedSession.querySelector('pre').innerHTML = aes.encrypt(values, currentPassword)
+          })
         })
       })
     })
@@ -76,47 +77,15 @@
       let data = formData.get('data')
       let password = formData.get('password')
 
-      let decryptedData = CryptoJS.AES.decrypt(data, password).toString(CryptoJS.enc.Utf8)
-      let { cookies, url } = JSON.parse(decryptedData)
-
       event.currentTarget.reset()
 
-      cookies.forEach(c => {
-        let domain = c.domain[0] === '.' ? c.domain.slice(1) : c.domain
+      data = aes.decrypt(data, password)
 
-        let cookie = {
-          url     : "http" + (c.secure ? "s" : "") + "://" + domain + c.path,
-          name    : c.name,
-          value   : c.value,
-          path    : c.path,
-          secure  : c.secure,
-          httpOnly: c.httpOnly,
-          storeId : c.storeId
-        }
-        c.hostOnly || (cookie.domain = c.domain)
-        c.session || (cookie.expirationDate = c.expirationDate)
-
-        chrome.cookies.set(cookie)
-      })
-
-      chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
-        let { id } = tabs[0]
-        chrome.tabs.update(id, { url })
-      })
+      cookieManager.set(data)
+      chrome.tabs.create({ url: data.url })
     })
   }
 
-  function encryptCookies(salt, fn) {
-    chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
-      let { url } = tabs[0]
-
-      chrome.cookies.getAll({ url }, function(cookies) {
-        let data = JSON.stringify({ cookies, url })
-        let encryptedData = CryptoJS.AES.encrypt(data, salt).toString()
-        fn(encryptedData)
-      })
-    })
-  }
 
   // --------------------------------------------------------------------
   // Utils
@@ -144,4 +113,4 @@
     return el
   }
 })()
-  
+
