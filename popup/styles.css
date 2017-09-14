@@ -1,3 +1,6 @@
+/* ----------------------------------------------
+  Common */
+
 body {
   font-family: Helvetica, sans-serif, Tahoma, sans-serif;
   font-size: 100%;
@@ -7,14 +10,15 @@ body {
   box-sizing: border-box;
 }
 
-a {
-  color: #276A94;
+a, .link {
+  font-size: 0.8em;
   outline: none;
   text-decoration: none;
-  font-size: 0.8em;
+  cursor: pointer;
+  color: #276A94;
 }
 
-a:hover {
+a:hover, .link:hover {
   color: #31729a;
 }
 
@@ -51,19 +55,48 @@ input:focus, textarea:focus {
 }
 
 section {
-  margin: 25px 0;
+  margin: 25px 0 25px;
+  position: relative;
 }
 
 hr {
   width: 50%;
 }
 
-/* Main */
+.text-center {
+  text-align: center;
+}
 
-.app {
-  width: 15em;
+.small {
+  font-size: smaller;
+}
+
+.hidden {
+  display: none;
+}
+
+.go-back {
+  margin-bottom: 8px;
+  display: inline-block;
+}
+
+/* ----------------------------------------------
+  Main */
+
+.body {
+  width: 25em;
   max-height: 40em;
   padding: 0 1em;
+}
+
+.app {
+  position: relative;
+}
+
+.app-logo {
+  top: -4px;
+  right: 1em;
+  position: absolute;
 }
 
 .btn {
@@ -77,7 +110,7 @@ hr {
 
   font-weight: 500;
   text-transform: uppercase;
-  
+
   background-color: #276A94;
   color: #FFF;
 
@@ -89,12 +122,9 @@ hr {
   background: #31729a;
 }
 
-.text-center {
-  text-align: center;
-}
-
-.hidden {
-  display: none;
+.btn[disabled] {
+  cursor: default;
+  background-color: #CCC;
 }
 
 .title {
@@ -102,28 +132,64 @@ hr {
 }
 
 
-/* Share */
+/* ----------------------------------------------
+  Menu */
 
-.current-password {
+.menu {
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.current-password input[name="password"] {
+.menu .menu-logo {
+  text-align: center;
+  margin: 25px 0 10px;
+}
+
+
+/* ----------------------------------------------
+  Share - Password */
+
+.share input[name="password"] {
   margin: 8px 0;
 }
 
-.current-password a {
-  width: 32%;
+.share .password-container {
+  width: 84%;
+  margin-right: 8px;
+  position: relative;
   display: inline-block;
 }
 
+.share .show-password {
+  top: 16px;
+  right: 14px;
+  position: absolute;
+  cursor: pointer;
+}
 
-/* Share */
+.share .active.show-password:before {
+  content: " ";
+  width: 6px;
+  height: 6px;
+  top: 6px;
+  left: 6px;
+  position: absolute;
+  border-radius: 100px;
+  background: #000;
+  display: block;
+}
 
-.share .btn {
-  margin-top: 8px;
+
+/* ----------------------------------------------
+  Share - Result */
+
+.share .share-session-btn-container {
+  margin-top: 30px;
 }
 
 .share .shared-session {
+  margin-top: 30px;
 }
 
 .share .shared-session  pre {
@@ -133,12 +199,14 @@ hr {
   color: rgba(34, 34, 40, 0.7);
 }
 
-.share .shared-session a {
+.share .shared-session .link {
   width: 49%;
   display: inline-block;
 }
 
-/* Restore */
+
+/* ----------------------------------------------
+  Restore */
 
 .restore {
 }
@@ -152,8 +220,8 @@ hr {
 
 .restore input[name="password"] {
   margin: 8px 0 12px;
-} 
+}
 
-.restore .btn {
-  margin: 0 auto;
+.restore .restore-session-btn {
+  margin: 15px auto 0;
 }

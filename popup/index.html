@@ -4,49 +4,94 @@
     <title>ShareSafe</title>
     <link rel="stylesheet" href="styles.css">
   </head>
-  <body>
+  <body class="body">
     <div id="app" class="app"></div>
 
-    <template id="js-template">
-      <section id="js-current-data" class="current-password">
-        <div class="title">Current password</div>
+    <template id="js-template-menu">
+      <section id="js-menu" class="menu">
+        <div class="menu-logo">
+          <img src="../icons/128.png" alt="ShareSafe logo" width="48">
+        </div>
+        <br />
+        <button class="btn" data-menu="share">Share session</button>
+        <br />
+        <button class="btn" data-menu="restore">Restore session</button>
+      </section>
+    </template>
+
+    <template id="js-template-share">
+      <div class="app-logo">
+        <img src="../icons/128.png" alt="ShareSafe logo" width="30">
+      </div>
+
+      <section id="js-current-data" class="share">
+        <div class="title">Current Session</div>
 
         <form action="/" id="js-set-password">
-          <input type="password" name="password" value="{{=currentPassword}}" placeholder="Type a password to encrypt your session" autocomplete="off" required />
+          <br />
+          <div class="small">Password</div>
+
+          <div class="password-container">
+            <input type="password" name="password" value="{{=password}}" placeholder="Type a password to encrypt your session" autocomplete="off" required />
+            <div id="js-toggle-password-visible" class="show-password">
+              <img src="./imgs/show-password.svg" alt="Show Password Icon" width="18">
+            </div>
+          </div>
+
+          <span id="js-set-new-password" class="link">Save</span>
         </form>
 
-        <div class="text-center">
-          <a id="js-toggle-password-visible" href="#">Show</a>
-          <a id="js-reset-password" href="#">Reset</a>
-          <a id="js-set-new-password" href="#">Set</a>
+        <div class="share-session-btn-container">
+          {{password}}
+            <button id="js-share-session-btn" class="btn">Share</button>
+          {{:password}}
+            <button class="btn" disabled title="Add a password to share your session">Add a password to share your session</button>
+          {{/password}}
         </div>
-      </section>
 
-      <hr />
-
-      <section class="share {{!currentPassword}} hidden {{/!currentPassword}}">
-        <div class="title">Current Session</div>
-        <button id="js-share-session-btn" class="btn">Share</button>
         <div id="js-shared-session" class="shared-session hidden">
+          <div class="small">Copy your session below to share it</div>
           <pre></pre>
 
           <div class="text-center">
-            <a id="js-session-select" href="#">Select text</a>
-            <a id="js-session-hide" href="#">Hide</a>
+            <span id="js-session-select" class="link">Select text</span>
+            <span id="js-session-hide" class="link">Hide</span>
           </div>
         </div>
       </section>
 
-      <hr class="{{!currentPassword}} hidden {{/!currentPassword}}" />
+      <div class="js-go-back go-back link">&lsaquo; back</div>
+    </template>
+
+    <template id="js-template-restore">
+      <div class="app-logo">
+        <img src="../icons/128.png" alt="ShareSafe logo" width="30">
+      </div>
 
       <section class="restore">
         <div class="title">Restore session</div>
         <form action="/" id="js-restore-session">
-          <textarea name="data" id="" placeholder="Encrypted session" rows="10"></textarea>
-          <input type="text" name="password" placeholder="Password" />
-          <input type="submit" class="btn" value="Restore session" />
+          <br />
+
+          <div>
+            <div class="small">Encrypted session</div>
+            <textarea name="data" placeholder="Ex: U2FsdGVkX1/6bHkbv2PuXxed78svar+Pf9c+U3ojbfnlCuy1KuFAZwXXbm/L3e2v2IQQbf8iAwlkqrxazN9Og==" rows="10"></textarea>
+          </div>
+
+          <br />
+
+          <div>
+            <div class="small">Encryption password</div>
+            <input type="text" name="password" placeholder="Some crazy password" autocomplete="off" />
+          </div>
+
+          <div class="restore-session-btn">
+            <input type="submit" class="btn" value="Restore session" />
+          </div>
         </form>
       </section>
+
+      <div class="js-go-back go-back link">&lsaquo; back</div>
     </template>
 
     <script src="aes-min.js"></script>
