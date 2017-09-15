@@ -43,11 +43,8 @@
       log('[Events] Attaching Menu events')
 
       addEventListener('[data-menu]', 'click', function(event) {
-        let clicked = event.currentTarget
-
-        configuration.get('password', function(password) {
-          template.render(clicked.dataset.menu, { password })
-        })
+        let menu = event.currentTarget.dataset.menu
+        fullRender(menu)
       })
     },
 
@@ -58,29 +55,16 @@
         configuration.get('password', function(password) {
           if (! password) return
 
-          chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
-            let url = tabs[0].url
-
-            cookieManager.get(url, function(cookies) {
-              let sharedSession = show('js-shared-session')
-              let data = { url, cookies }
-              sharedSession.querySelector('pre').innerHTML = aes.encrypt(data, password)
-            })
+          session.store(password, function(encryptedData) {
+            let sharedSession = show('js-shared-session')
+            sharedSession.querySelector('pre').innerHTML = encryptedData
           })
         })
       })
 
       addEventListener('#js-session-hide', 'click', () => hide('js-shared-session'))
 
-      addEventListener('#js-session-select', 'click', function() {
-        let session = document.querySelector('#js-shared-session pre')
-        let range   = document.createRange()
-        range.selectNodeContents(session)
-
-        let sel = window.getSelection()
-        sel.removeAllRanges()
-        sel.addRange(range)
-      })
+      addEventListener('#js-session-select', 'click', () => selectText('#js-shared-session pre'))
 
       this['attach-password']() // Password related events are inside the Share section
     },
@@ -89,27 +73,26 @@
       log('[Events] Attaching Password events')
 
       addEventListener('#js-toggle-password-visible', 'click', function(event) {
-        let passwordInput = document.getElementById('js-set-password')[0]
-        let type = passwordInput.type
+        let passwordInput = document.querySelector('input[name="password"]')
 
-        passwordInput.type = { password: 'text', text: 'password' }[type]
+        passwordInput.type = {
+          password: 'text',
+          text    : 'password'
+        }[passwordInput.type]
+
         event.currentTarget.classList.toggle('active')
       })
 
-      addEventListener('#js-set-new-password', 'click', () =>
-        document.getElementById('js-set-password').dispatchEvent(new CustomEvent('submit'))
-      )
-
-      addEventListener('#js-set-password', 'submit', function(event) {
+      addEventListener('#js-save-password-form', 'submit', function(event) {
         let formData = new FormData(event.currentTarget)
         let password = formData.get('password')
 
         configuration.set({ password })
         template.render('share', { password })
 
-        let newPasswordLink = document.getElementById('js-set-new-password')
-        newPasswordLink.innerHTML = '&#10004;'
-        setTimeout(() => newPasswordLink.innerHTML = 'Save', 1000)
+        let savePassoword = document.getElementById('js-save-password')
+        savePassoword.value = '✔'
+        setTimeout(() => savePassoword.value = 'Save', 1000)
       })
     },
 
@@ -121,25 +104,125 @@
         let data = formData.get('data')
         let password = formData.get('password')
 
+        session.restore(data, password)
         event.currentTarget.reset()
+      })
+    },
 
-        let { url, cookies } = aes.decrypt(data, password)
-
-        cookieManager.set(url, cookies)
-        chrome.tabs.create({ url })
+    'attach-history': function() {
+      addEventListener('.js-delete', 'click', function(event) {
+        let key = event.currentTarget.dataset.key
+        session.remove(key, () => fullRender('history'))
       })
     },
 
     attachGoBack: function() {
-      addEventListener('.js-go-back', 'click', function() {
-        template.render('menu')
-      })
+      addEventListener('.js-go-back', 'click', () => template.render('menu'))
     }
   }
 
+  let session = {
+    store: function(password, callback) {
+      getCurrentTab(function(tab) {
+        cookieManager.get(tab.url, function(cookies) {
+          let data = { url: tab.url, cookies }
+          let encryptedData = aes.encrypt(data, password)
+
+          session.record(tab.url, tab.title)
+          callback(encryptedData)
+        })
+      })
+    },
+
+    record: function(url, title) {
+      session.modify(function(sessions) {
+        let timestamp = new Date()
+        let sessionKey = session.getKey(timestamp)
+
+        sessions[sessionKey] = sessions[sessionKey] || []
+        sessions[sessionKey].push({
+          url,
+          title,
+          timestamp: timestamp.getTime()
+        })
+
+        return session.filterOlderKeys(sessions)
+      })
+    },
+
+    restore: function(data, password) {
+      let { url, cookies } = aes.decrypt(data, password)
+
+      cookieManager.set(url, cookies)
+      chrome.tabs.create({ url })
+    },
+
+    filterOlderKeys: function(sessions) {
+      let currentMonth = new Date().getMonth()
+      let filteredSessions = {}
+
+      for (let key in sessions) {
+        let month = this.getMonthFromKey(key)
+
+        if (currentMonth == month) {
+          filteredSessions[key] = sessions[key]
+        }
+      }
+
+      return filteredSessions
+    },
+
+    remove: function(key, callback) {
+      session.modify(function(sessions) {
+        delete sessions[key]
+        return sessions
+      }, callback)
+    },
+
+    modify: function(modifier, callback) {
+      configuration.get('sessions', function(sessions) {
+        sessions = modifier(sessions)
+        configuration.set({ sessions, hasSessions: ! isEmptyObject(sessions) })
+
+        callback && callback()
+      })
+    },
+
+    getKey(timestamp) {
+      return [
+        timestamp.getMonth(),
+        timestamp.getDate(),
+        timestamp.getYear()
+      ].join('/')
+    },
+
+    getMonthFromKey(key) {
+      return key.split('/')[0]
+    }
+  }
 
   // --------------------------------------------------------------------
   // Utils
+
+  function fullRender(name) {
+    configuration.get(config => template.render(name, config))
+  }
+
+  function getCurrentTab(callback) {
+    chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
+      callback(tabs[0])
+    })
+  }
+
+  function selectText(selector) {
+    let element = document.querySelector(selector)
+    let range   = document.createRange()
+    range.selectNodeContents(element)
+
+    let sel = window.getSelection()
+    sel.removeAllRanges()
+    sel.addRange(range)
+  }
 
   function addEventListener(selector, event, fn) {
     let els = document.querySelectorAll(selector)
@@ -167,6 +250,10 @@
     let el = document.getElementById(id)
     el.classList.add('hidden')
     return el
+  }
+
+  function isEmptyObject(obj) {
+    return Object.keys(obj).length === 0
   }
 
 

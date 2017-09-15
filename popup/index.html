@@ -7,6 +7,7 @@
   <body class="body">
     <div id="app" class="app"></div>
 
+
     <template id="js-template-menu">
       <section id="js-menu" class="menu">
         <div class="menu-logo">
@@ -16,8 +17,11 @@
         <button class="btn" data-menu="share">Share session</button>
         <br />
         <button class="btn" data-menu="restore">Restore session</button>
+        <br />
+        <button class="btn" data-menu="history">Share history</button>
       </section>
     </template>
+
 
     <template id="js-template-share">
       <div class="app-logo">
@@ -27,7 +31,7 @@
       <section id="js-current-data" class="share">
         <div class="title">Current Session</div>
 
-        <form action="/" id="js-set-password">
+        <form action="/" id="js-save-password-form">
           <br />
           <div class="small">Password</div>
 
@@ -38,7 +42,7 @@
             </div>
           </div>
 
-          <span id="js-set-new-password" class="link">Save</span>
+          <input id="js-save-password" type="submit" class="link save-password" value="Save">
         </form>
 
         <div class="share-session-btn-container">
@@ -62,6 +66,7 @@
 
       <div class="js-go-back go-back link">&lsaquo; back</div>
     </template>
+
 
     <template id="js-template-restore">
       <div class="app-logo">
@@ -93,6 +98,38 @@
 
       <div class="js-go-back go-back link">&lsaquo; back</div>
     </template>
+
+
+    <template id="js-template-history">
+      <div class="app-logo">
+        <img src="../icons/128.png" alt="ShareSafe logo" width="30">
+      </div>
+
+      <section class="history">
+        <div class="title">Shared sessions</div>
+        <div class="explanation">We only keep track of URLs and titles for a month, no passwords or sessions</div>
+
+        <div class="sessions">
+          {{hasSessions}}
+            {{@sessions}}
+              <h5>Shared on {{=_key}} <span class="link delete js-delete">X</span></h5>
+              <ul>
+                {{@_val}}
+                  <li>
+                    <a class="session-url" href="{{=_val.url}}" target="_blank">{{=_val.title}}</a>
+                  </li>
+                {{/@_val}}
+              </ul>
+            {{/@sessions}}
+          {{:hasSessions}}
+            <div class="small">No shared session yet</div>
+          {{/hasSessions}}
+        </div>
+      </section>
+
+      <div class="js-go-back go-back link">&lsaquo; back</div>
+    </template>
+
 
     <script src="aes-min.js"></script>
     <script src="t.min.js"></script>

@@ -154,6 +154,12 @@ hr {
   margin: 8px 0;
 }
 
+.share .save-password {
+  width: 12%;
+  background: none;
+  border: none;
+}
+
 .share .password-container {
   width: 84%;
   margin-right: 8px;
@@ -224,4 +230,40 @@ hr {
 
 .restore .restore-session-btn {
   margin: 15px auto 0;
+}
+
+
+
+/* ----------------------------------------------
+  History */
+
+.history .explanation {
+  font-size: 12px;
+  margin: 8px 0 15px;
+}
+
+.sessions h5 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.sessions ul {
+  font-size: 15px;
+}
+
+.sessions .session-url {
+  display: inline-block;
+  width: 94%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sessions .delete {
+  margin-right: 18px;
+  float: right;
+  color: #D00909;
+  vertical-align: middle;
+  display: inline-block;
 }

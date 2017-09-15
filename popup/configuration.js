@@ -1,6 +1,10 @@
-;(function () {
+(function () {
+  'use strict'
+
   var DEFAULT_CONFIGURATION = {
-    password: null
+    password: null,
+    sessions: {},        // { time: [{url, title}] }
+    hasSessions: false
   }
 
   var configuration = {
@@ -18,7 +22,7 @@
         chrome.storage.sync.get(DEFAULT_CONFIGURATION, callback)
       } else {
         chrome.storage.sync.get(key, function(result) {
-          callback(result[key])
+          callback(result[key] || DEFAULT_CONFIGURATION[key])
         })
       }
     },
