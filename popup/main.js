@@ -1,4 +1,4 @@
-/* globals configuration, aes, cookieManager, t */
+/* globals configuration, Clipboard, aes, cookieManager, t */
 
 (function() {
   'use strict'
@@ -64,7 +64,11 @@
 
       addEventListener('#js-session-hide', 'click', () => hide('js-shared-session'))
 
-      addEventListener('#js-session-select', 'click', () => selectText('#js-shared-session pre'))
+      new Clipboard('[data-clipboard]')
+        .on('success', function(event) {
+          flash(event.trigger, 'innerHTML', 'Copied!')
+          event.clearSelection()
+        })
 
       this['attach-password']() // Password related events are inside the Share section
     },
@@ -90,9 +94,7 @@
         configuration.set({ password })
         template.render('share', { password })
 
-        let savePassoword = document.getElementById('js-save-password')
-        savePassoword.value = '✔'
-        setTimeout(() => savePassoword.value = 'Save', 1000)
+        flash(document.getElementById('js-save-password'), 'value', '✔')
       })
     },
 
@@ -214,16 +216,6 @@
     })
   }
 
-  function selectText(selector) {
-    let element = document.querySelector(selector)
-    let range   = document.createRange()
-    range.selectNodeContents(element)
-
-    let sel = window.getSelection()
-    sel.removeAllRanges()
-    sel.addRange(range)
-  }
-
   function addEventListener(selector, event, fn) {
     let els = document.querySelectorAll(selector)
     if (! els.length) log('[WARN] Could not find an element for selector ' + selector)
@@ -238,6 +230,12 @@
       event.preventDefault()
       fn(event)
     }
+  }
+
+  function flash(element, prop, value) {
+    let originalValue = element[prop]
+    element[prop] = value
+    setTimeout(() => element[prop] = originalValue, 1000)
   }
 
   function show(id) {

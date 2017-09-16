@@ -54,12 +54,12 @@
         </div>
 
         <div id="js-shared-session" class="shared-session hidden">
-          <div class="small">Copy your session below to share it</div>
-          <pre></pre>
+          <div class="small">Copy your session below to share it <span id="js-session-hide" class="link delete">X</span></div>
+          <pre id="js-shared-session-text"></pre>
 
-          <div class="text-center">
-            <span id="js-session-select" class="link">Select text</span>
-            <span id="js-session-hide" class="link">Hide</span>
+          <div class="actions">
+            <b><span data-clipboard data-clipboard-target="#js-shared-session-text" class="link">Copy text</span></b>
+            <span data-clipboard data-clipboard-text="https://chrome.google.com/webstore/detail/sharesafe/glifngepkcmfolnojchcfiinmjgeablm" class="link">Copy ShareSafe install link</span>
           </div>
         </div>
       </section>
@@ -131,6 +131,7 @@
     </template>
 
 
+    <script src="clipboard.min.js"></script>
     <script src="aes-min.js"></script>
     <script src="t.min.js"></script>
     <script src="configuration.js"></script>

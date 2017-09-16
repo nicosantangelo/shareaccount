@@ -75,6 +75,14 @@ hr {
   display: none;
 }
 
+.delete {
+  margin-right: 18px;
+  float: right;
+  color: #D00909;
+  vertical-align: middle;
+  display: inline-block;
+}
+
 .go-back {
   margin-bottom: 8px;
   display: inline-block;
@@ -205,7 +213,11 @@ hr {
   color: rgba(34, 34, 40, 0.7);
 }
 
-.share .shared-session .link {
+.share .shared-session .actions {
+  text-align: center;
+}
+
+.share .shared-session .actions .link {
   width: 49%;
   display: inline-block;
 }
@@ -258,12 +270,4 @@ hr {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
-
-.sessions .delete {
-  margin-right: 18px;
-  float: right;
-  color: #D00909;
-  vertical-align: middle;
-  display: inline-block;
 }
