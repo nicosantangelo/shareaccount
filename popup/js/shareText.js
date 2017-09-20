@@ -3,7 +3,7 @@
 (function() {
   'use strict'
 
-  let log = window.log.bind('[Pastebin]')
+  let log = window.log.bind('[ShareText]')
 
   const DELETE_TIMEOUT = 1000 * 60 * 10 // Ten minutes
   const PASTE_EE_API_KEY = ''
