@@ -23,6 +23,8 @@ a:hover, .link:hover {
 }
 
 pre {
+  margin: 0;
+  padding: 0;
   word-wrap: break-word;
   white-space: normal;
 }
@@ -76,7 +78,6 @@ hr {
 }
 
 .delete {
-  margin-right: 18px;
   float: right;
   color: #D00909;
   vertical-align: middle;
@@ -206,11 +207,23 @@ hr {
   margin-top: 30px;
 }
 
-.share .shared-session  pre {
+.share .shared-session .delete {
+  margin-right: 4px;
+}
+
+.share .shared-session .share-result {
   max-height: 15em;
-  padding: 0 8px;
   overflow: auto;
   color: rgba(34, 34, 40, 0.7);
+  font-family: monospace;
+}
+
+.share .shared-session .encrypted-data {
+  margin: 15px 0 5px;
+}
+
+.share .shared-session .share-text-link {
+  padding-right: 8px;
 }
 
 .share .shared-session .actions {
@@ -252,6 +265,10 @@ hr {
 .history .explanation {
   font-size: 12px;
   margin: 8px 0 15px;
+}
+
+.sessions .delete {
+  margin-right: 18px;
 }
 
 .sessions h5 {

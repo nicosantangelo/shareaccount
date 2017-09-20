@@ -2,6 +2,7 @@
 <html>
   <head>
     <title>ShareSafe</title>
+
     <link rel="stylesheet" href="styles.css">
   </head>
   <body class="body">
@@ -54,11 +55,17 @@
         </div>
 
         <div id="js-shared-session" class="shared-session hidden">
-          <div class="small">Copy your session below to share it <span id="js-session-hide" class="link delete">X</span></div>
-          <pre id="js-shared-session-text"></pre>
+          <div class="small">Encrypted session <span id="js-session-hide" class="link delete">X</span></div>
+
+          <pre id="js-shared-session-text" class="encrypted-data share-result"></pre>
+          <div data-clipboard data-clipboard-target="#js-shared-session-text" class="link">Copy text</div>
+
+          <br />
+
+          <span id="js-share-text-link" class="share-text-link share-result"></span><span class="link" data-clipboard data-clipboard-target="#js-share-text-link">Copy</span>
 
           <div class="actions">
-            <b><span data-clipboard data-clipboard-target="#js-shared-session-text" class="link">Copy text</span></b>
+            <br />
             <span data-clipboard data-clipboard-text="https://chrome.google.com/webstore/detail/sharesafe/glifngepkcmfolnojchcfiinmjgeablm" class="link">Copy ShareSafe install link</span>
           </div>
         </div>
@@ -132,11 +139,16 @@
 
 
     <script src="clipboard.min.js"></script>
-    <script src="aes-min.js"></script>
     <script src="t.min.js"></script>
-    <script src="configuration.js"></script>
+    <script src="aes-min.js"></script>
+
+    <script src="log.js"></script>
+    <script src="http.js"></script>
     <script src="aes.js"></script>
+    <script src="shareText.js"></script>
+    <script src="configuration.js"></script>
     <script src="cookieManager.js"></script>
+
     <script src="main.js"></script>
   </body>
 </html>

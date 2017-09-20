@@ -1,11 +1,7 @@
-/* globals configuration, Clipboard, aes, cookieManager, t */
+/* globals log, configuration, Clipboard, shareText, aes, cookieManager, t */
 
 (function() {
   'use strict'
-
-  // Easy access to log functions to be disabled on build
-  let log = console.log.bind(console, '[ShareSafe]')
-
 
   // --------------------------------------------------------------------
   // Main objects
@@ -15,13 +11,13 @@
       log('[Template] Rendering', name,' with data', data)
 
       let template = this.get(name)
-      document.getElementById('app').innerHTML = template.render(data || {})
+      getElementById('app').innerHTML = template.render(data || {})
       events.attach(name)
     },
 
     get: function(name) {
       let id = 'js-template-' + name
-      let templateEl = document.getElementById(id)
+      let templateEl = getElementById(id)
       if (! templateEl) throw new Error('Whoops! template ' + id + ' does not exist')
 
       return new t(templateEl.innerHTML)
@@ -55,14 +51,18 @@
         configuration.get('password', function(password) {
           if (! password) return
 
-          session.store(password, function(encryptedData) {
-            let sharedSession = show('js-shared-session')
-            sharedSession.querySelector('pre').innerHTML = encryptedData
+          session.store(password, function(encryptedData, tab) {
+            show('js-shared-session')
+            getElementById('js-shared-session-text').innerHTML = encryptedData
+
+            shareText.getLink(tab.title, encryptedData, link => getElementById('js-share-text-link').innerHTML = link)
           })
         })
       })
 
       addEventListener('#js-session-hide', 'click', () => hide('js-shared-session'))
+
+      addEventListener('#js-copy-share-text', 'click', () => hide('js-shared-session'))
 
       new Clipboard('[data-clipboard]')
         .on('success', function(event) {
@@ -94,7 +94,7 @@
         configuration.set({ password })
         template.render('share', { password })
 
-        flash(document.getElementById('js-save-password'), 'value', '✔')
+        flash(getElementById('js-save-password'), 'value', '✔')
       })
     },
 
@@ -131,7 +131,7 @@
           let encryptedData = aes.encrypt(data, password)
 
           session.record(tab.url, tab.title)
-          callback(encryptedData)
+          callback(encryptedData, tab)
         })
       })
     },
@@ -239,15 +239,19 @@
   }
 
   function show(id) {
-    let el = document.getElementById(id)
+    let el = getElementById(id)
     el.classList.remove('hidden')
     return el
   }
 
   function hide(id) {
-    let el = document.getElementById(id)
+    let el = getElementById(id)
     el.classList.add('hidden')
     return el
+  }
+
+  function getElementById(id) {
+    return document.getElementById(id)
   }
 
   function isEmptyObject(obj) {
