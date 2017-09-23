@@ -32,26 +32,17 @@
       <section id="js-current-data" class="share">
         <div class="title">Current Session</div>
 
-        <form action="/" id="js-save-password-form">
+        <div>
           <br />
-          <div class="small">Password</div>
+          <div class="small">Public Key</div>
 
-          <div class="password-container">
-            <input type="password" name="password" value="{{=password}}" placeholder="Type a password to encrypt your session" autocomplete="off" required />
-            <div id="js-toggle-password-visible" class="show-password">
-              <img src="./imgs/show-password.svg" alt="Show Password Icon" width="18">
-            </div>
+          <div class="pubkey-container">
+            <input id="js-pubkey" type="text" name="pubkey" value="" placeholder="Public key of the box you're sharing with" required />
           </div>
-
-          <input id="js-save-password" type="submit" class="link save-password" value="Save">
         </form>
 
         <div class="share-session-btn-container">
-          {{password}}
-            <button id="js-share-session-btn" class="btn">Share</button>
-          {{:password}}
-            <button class="btn" disabled title="Add a password to share your session">Add a password to share your session</button>
-          {{/password}}
+          <button id="js-share-session-btn" class="btn">Share</button>
         </div>
 
         <div id="js-shared-session" class="shared-session hidden">
@@ -92,11 +83,6 @@
 
           <br />
 
-          <div>
-            <div class="small">Encryption password</div>
-            <input type="text" name="password" placeholder="Some crazy password" autocomplete="off" />
-          </div>
-
           <div class="restore-session-btn">
             <input type="submit" class="btn" value="Restore session" />
           </div>
@@ -114,7 +100,7 @@
 
       <section class="history">
         <div class="title">Shared sessions</div>
-        <div class="explanation">We only keep track of URLs and titles for a month, no passwords or sessions</div>
+        <div class="explanation">We only keep track of URLs and titles for a month, no sessions</div>
 
         <div class="sessions">
           {{hasSessions}}
@@ -139,12 +125,12 @@
 
 
     <script src="js/vendor/clipboard.min.js"></script>
-    <script src="js/vendor/t.min.js"></script>
-    <script src="js/vendor/aes-min.js"></script>
+    <script src="js/vendor/sjcl.min.js"></script>
+    <script src="js/vendor/_t.min.js"></script>
 
     <script src="js/log.js"></script>
     <script src="js/http.js"></script>
-    <script src="js/aes.js"></script>
+    <script src="js/cryptography.js"></script>
     <script src="js/shareText.js"></script>
     <script src="js/configuration.js"></script>
     <script src="js/cookieManager.js"></script>

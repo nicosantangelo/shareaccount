@@ -1,4 +1,4 @@
-/* globals log, configuration, Clipboard, shareText, aes, cookieManager, t */
+/* globals log, configuration, Clipboard, shareText, cryptography, cookieManager, _t */
 
 (function() {
   'use strict'
@@ -20,7 +20,7 @@
       let templateEl = getElementById(id)
       if (! templateEl) throw new Error('Whoops! template ' + id + ' does not exist')
 
-      return new t(templateEl.innerHTML)
+      return new _t(templateEl.innerHTML)
     }
   }
 
@@ -48,15 +48,14 @@
       log('[Events] Attaching Share events')
 
       addEventListener('#js-share-session-btn', 'click', function() {
-        configuration.get('password', function(password) {
-          if (! password) return
+        const publicKey = getElementById('js-pubkey').value
+        if (! publicKey) return // TODO: Error
 
-          session.store(password, function(encryptedData, tab) {
-            show('js-shared-session')
-            getElementById('js-shared-session-text').innerHTML = encryptedData
+        session.store(publicKey, function(encryptedData, tab) {
+          show('js-shared-session')
+          getElementById('js-shared-session-text').innerHTML = encryptedData
 
-            shareText.getLink(tab.title, encryptedData, link => getElementById('js-share-text-link').innerHTML = link)
-          })
+          shareText.getLink(tab.title, encryptedData, link => getElementById('js-share-text-link').innerHTML = link)
         })
       })
 
@@ -69,44 +68,16 @@
           flash(event.trigger, 'innerHTML', 'Copied!')
           event.clearSelection()
         })
-
-      this['attach-password']() // Password related events are inside the Share section
-    },
-
-    'attach-password': function() {
-      log('[Events] Attaching Password events')
-
-      addEventListener('#js-toggle-password-visible', 'click', function(event) {
-        let passwordInput = document.querySelector('input[name="password"]')
-
-        passwordInput.type = {
-          password: 'text',
-          text    : 'password'
-        }[passwordInput.type]
-
-        event.currentTarget.classList.toggle('active')
-      })
-
-      addEventListener('#js-save-password-form', 'submit', function(event) {
-        let formData = new FormData(event.currentTarget)
-        let password = formData.get('password')
-
-        configuration.set({ password })
-        template.render('share', { password })
-
-        flash(getElementById('js-save-password'), 'value', '✔')
-      })
     },
 
     'attach-restore': function() {
       log('[Events] Attaching Restore events')
 
       addEventListener('#js-restore-session', 'submit', function(event) {
-        let formData = new FormData(event.currentTarget)
-        let data = formData.get('data')
-        let password = formData.get('password')
+        let form = event.currentTarget
+        let textarea = form.elements[0]
 
-        session.restore(data, password)
+        session.restore(textarea.value)
         event.currentTarget.reset()
       })
     },
@@ -124,11 +95,11 @@
   }
 
   let session = {
-    store: function(password, callback) {
+    store: function(publicKey, callback) {
       getCurrentTab(function(tab) {
         cookieManager.get(tab.url, function(cookies) {
           let data = { url: tab.url, cookies }
-          let encryptedData = aes.encrypt(data, password)
+          let encryptedData = keys.encrypt(publicKey, data)
 
           session.record(tab.url, tab.title)
           callback(encryptedData, tab)
@@ -152,8 +123,8 @@
       })
     },
 
-    restore: function(data, password) {
-      let { url, cookies } = aes.decrypt(data, password)
+    restore: function(data) {
+      let { url, cookies } = keys.decrypt(data)
 
       cookieManager.set(url, cookies)
       chrome.tabs.create({ url })
@@ -202,6 +173,49 @@
       return key.split('/')[0]
     }
   }
+
+  const keys = {
+    pair: {
+      publicKey: null,
+      privateKey: null,
+    },
+
+    upsert() {
+      if (this.isGenerated()) return
+
+      configuration.get(this.pair, function(publicKey, privateKey) {
+        if (! publicKey || ! privateKey) {
+          this.generate()
+        } else {
+          this.pair = { publicKey, privateKey }
+        }
+
+      }.bind(this))
+    },
+
+    generate() {
+      log('Saving user keys for later signing')
+
+      const pair = cryptography.createKeys()
+
+      this.pair = pair
+      configuration.set(pair)
+    },
+
+    isGenerated() {
+      return this.publicKey && this.privateKey
+    },
+
+    encrypt(publicKey, message) {
+      return cryptography.encrypt(publicKey, JSON.stringify(message))
+    },
+
+    decrypt(encrypted) {
+      const decryption = cryptography.decrypt(this.pair.privateKey, encrypted)
+      return JSON.parse(decryption)
+    }
+  }
+
 
   // --------------------------------------------------------------------
   // Utils
@@ -259,10 +273,13 @@
   }
 
 
+
+
   // --------------------------------------------------------------------
   // Start
 
-  template.render('menu')
+  keys.upsert()
 
+  template.render('menu')
 })()
 

@@ -2,7 +2,9 @@
   'use strict'
 
   var DEFAULT_CONFIGURATION = {
-    password: null,
+    publicKey: null,
+    privateKey: null,
+
     sessions: {},        // { time: [{url, title}] }
     hasSessions: false
   }
@@ -16,19 +18,32 @@
       }
     },
 
-    get: function(key, callback) {
-      if (typeof key === 'function') {
-        callback = key
-        chrome.storage.sync.get(DEFAULT_CONFIGURATION, callback)
+    get: function(search, callback) {
+      if (typeof search === 'function') {
+        callback = search
+        chrome.storage.local.get(DEFAULT_CONFIGURATION, callback)
       } else {
-        chrome.storage.sync.get(key, function(result) {
-          callback(result[key] || DEFAULT_CONFIGURATION[key])
+        chrome.storage.local.get(search, function(result) {
+          let values = []
+          let keys = {}
+
+          if (typeof search === 'string') {
+            keys[search] = null
+          } else {
+            keys = Object.assign({}, search)
+          }
+
+          values = Object.keys(keys).map(function(name) {
+            return result[name] || DEFAULT_CONFIGURATION[name]
+          })
+
+          callback.apply(null, values)
         })
       }
     },
 
     set: function(values, callback) {
-      chrome.storage.sync.set(values, callback)
+      chrome.storage.local.set(values, callback)
     },
 
     onChanged: function(callback) {

@@ -159,7 +159,7 @@ hr {
 /* ----------------------------------------------
   Share - Password */
 
-.share input[name="password"] {
+.share input[name="pubkey"] {
   margin: 8px 0;
 }
 
@@ -169,30 +169,11 @@ hr {
   border: none;
 }
 
-.share .password-container {
-  width: 84%;
+.share .pubkey-container {
+  width: 100%;
   margin-right: 8px;
   position: relative;
   display: inline-block;
-}
-
-.share .show-password {
-  top: 16px;
-  right: 14px;
-  position: absolute;
-  cursor: pointer;
-}
-
-.share .active.show-password:before {
-  content: " ";
-  width: 6px;
-  height: 6px;
-  top: 6px;
-  left: 6px;
-  position: absolute;
-  border-radius: 100px;
-  background: #000;
-  display: block;
 }
 
 
@@ -247,10 +228,6 @@ hr {
 
 .restore form textarea {
   margin-top: 8px;
-}
-
-.restore input[name="password"] {
-  margin: 8px 0 12px;
 }
 
 .restore .restore-session-btn {
