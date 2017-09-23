@@ -48,15 +48,20 @@
       log('[Events] Attaching Share events')
 
       addEventListener('#js-share-session', 'submit', function() {
-        const publicKey = getElementById('js-pubkey').value
-        if (! publicKey) return // TODO: Error
+        try {
+          const publicKey = getElementById('js-pubkey').value
 
-        session.store(publicKey, function(encryptedData, tab) {
-          show('js-shared-session')
-          getElementById('js-shared-session-text').innerHTML = encryptedData
+          session.store(publicKey, function(encryptedData, tab) {
+            show('js-shared-session')
+            getElementById('js-shared-session-text').innerHTML = encryptedData
 
-          shareText.getLink(tab.title, encryptedData, link => getElementById('js-share-text-link').innerHTML = link)
-        })
+            shareText.getLink(tab.title, encryptedData, link => getElementById('js-share-text-link').innerHTML = link)
+          })
+
+        } catch(e) {
+          console.warn(e)
+          showError('An error occurred trying to encrypt your session. Check that the public key is correct.')
+        }
       })
 
       addEventListener('#js-session-hide', 'click', () => hide('js-shared-session'))
@@ -70,11 +75,23 @@
       log('[Events] Attaching Restore events')
 
       addEventListener('#js-restore-session', 'submit', function(event) {
-        let form = event.currentTarget
-        let textarea = form.elements[0]
+        try {
+          let form = event.currentTarget
+          let textarea = form.elements[0]
 
-        session.restore(textarea.value)
-        event.currentTarget.reset()
+          session.restore(textarea.value)
+          event.currentTarget.reset()
+
+        } catch(e) {
+          console.warn(e)
+          showError('An error occurred trying to restore the session. Check that the encrypted text is correct and was generated with your public key.')
+        }
+      })
+
+      addEventListener('#js-regenerate-keys', 'click', function(event) {
+        keys.generate()
+        session.removeAll()
+        fullRender('restore')
       })
 
       this.attachConditionalSubmitEvents({ source: 'data', target: 'submit' })
@@ -94,7 +111,7 @@
 
       new Clipboard('[data-clipboard]')
         .on('success', function(event) {
-          flash(event.trigger, 'innerHTML', 'Copied!')
+          flash(event.trigger, 'data-balloon', 'Copied!')
           event.clearSelection()
         })
     },
@@ -168,6 +185,10 @@
       }
 
       return filteredSessions
+    },
+
+    removeAll: function(key) {
+      session.modify(function() { return {} })
     },
 
     remove: function(key, callback) {
@@ -255,6 +276,11 @@
     })
   }
 
+  function showError(text) {
+    const errorEl = getElementById('js-error')
+    flash(errorEl, 'innerHTML', text, 2800)
+  }
+
   function addEventListener(selector, event, fn) {
     let els = document.querySelectorAll(selector)
     if (! els.length) log('[WARN] Could not find an element for selector ' + selector)
@@ -279,10 +305,18 @@
     }
   }
 
-  function flash(element, prop, value) {
-    let originalValue = element[prop]
-    element[prop] = value
-    setTimeout(() => element[prop] = originalValue, 1000)
+  function flash(element, prop, value, delay) {
+    let setVal = function(val) {
+      if (element[prop] === undefined) {
+        element.setAttribute(prop, val)
+      } else {
+        element[prop] = val
+      }
+    }
+
+    let originalValue = element[prop] || element.getAttribute(prop)
+    setVal(value)
+    setTimeout(() => setVal(originalValue), delay || 1000)
   }
 
   function show(id) {

@@ -61,6 +61,10 @@ section {
   position: relative;
 }
 
+img {
+  vertical-align: middle;
+}
+
 hr {
   width: 50%;
 }
@@ -79,18 +83,6 @@ hr {
 
 .hidden {
   display: none;
-}
-
-.delete {
-  float: right;
-  color: #D00909;
-  vertical-align: middle;
-  display: inline-block;
-}
-
-.go-back {
-  margin-bottom: 8px;
-  display: inline-block;
 }
 
 /* ----------------------------------------------
@@ -144,6 +136,30 @@ hr {
   font-size: 1.1em;
 }
 
+.action-icon {
+  margin-right: 8px;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.error {
+  margin-bottom: 8px;
+  font-size: 0.8em;
+  color: #D00909;
+}
+
+.delete {
+  float: right;
+  color: #D00909;
+  vertical-align: middle;
+  display: inline-block;
+}
+
+.go-back {
+  margin-bottom: 8px;
+  display: inline-block;
+}
+
 
 /* ----------------------------------------------
   Menu */
@@ -185,7 +201,7 @@ hr {
   Share - Result */
 
 .share .share-session-btn-container {
-  margin-top: 30px;
+  margin-top: 10px;
 }
 
 .share .shared-session {
@@ -208,16 +224,7 @@ hr {
 }
 
 .share .shared-session .share-text-link {
-  padding-right: 8px;
-}
-
-.share .shared-session .actions {
-  text-align: center;
-}
-
-.share .shared-session .actions .link {
-  width: 49%;
-  display: inline-block;
+  padding-right: 5px;
 }
 
 
@@ -228,7 +235,7 @@ hr {
 }
 
 .restore [name="pubkey"] {
-  width: 82%;
+  width: 85%;
   margin-right: 5px;
 }
 
