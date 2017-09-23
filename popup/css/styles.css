@@ -65,6 +65,10 @@ hr {
   width: 50%;
 }
 
+.m-t {
+  margin-top: 20px;
+}
+
 .text-center {
   text-align: center;
 }
@@ -223,9 +227,12 @@ hr {
 .restore {
 }
 
-.restore form {
+.restore [name="pubkey"] {
+  width: 82%;
+  margin-right: 5px;
 }
 
+.restore [name="pubkey"],
 .restore form textarea {
   margin-top: 8px;
 }

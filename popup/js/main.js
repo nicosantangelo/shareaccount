@@ -47,7 +47,7 @@
     'attach-share': function() {
       log('[Events] Attaching Share events')
 
-      addEventListener('#js-share-session-btn', 'click', function() {
+      addEventListener('#js-share-session', 'submit', function() {
         const publicKey = getElementById('js-pubkey').value
         if (! publicKey) return // TODO: Error
 
@@ -63,11 +63,7 @@
 
       addEventListener('#js-copy-share-text', 'click', () => hide('js-shared-session'))
 
-      new Clipboard('[data-clipboard]')
-        .on('success', function(event) {
-          flash(event.trigger, 'innerHTML', 'Copied!')
-          event.clearSelection()
-        })
+      this.attachConditionalSubmitEvents({ source: 'pubkey', target: 'submit' })
     },
 
     'attach-restore': function() {
@@ -80,17 +76,46 @@
         session.restore(textarea.value)
         event.currentTarget.reset()
       })
+
+      this.attachConditionalSubmitEvents({ source: 'data', target: 'submit' })
     },
 
     'attach-history': function() {
+      log('[Events] Attaching History events')
+
       addEventListener('.js-delete', 'click', function(event) {
         let key = event.currentTarget.dataset.key
         session.remove(key, () => fullRender('history'))
       })
     },
 
+    attachClipboard: function() {
+      log('[Events] Attaching clipboard')
+
+      new Clipboard('[data-clipboard]')
+        .on('success', function(event) {
+          flash(event.trigger, 'innerHTML', 'Copied!')
+          event.clearSelection()
+        })
+    },
+
     attachGoBack: function() {
+      log('[Events] Attaching go back')
       addEventListener('.js-go-back', 'click', () => template.render('menu'))
+    },
+
+    attachConditionalSubmitEvents: function(names) {
+      const sourceSelector = '[name="' + names.source + '"]'
+      const target = document.querySelector('input[name="' + names.target + '"]')
+
+      addEventListener(sourceSelector, 'keyup', event => enableOnText(event.currentTarget, target))
+
+      addEventListener(sourceSelector, 'paste', event => {
+        const pastedData = event.clipboardData.getData('Text')
+
+        window.document.execCommand('insertText', false, pastedData)
+        enableOnText(event.currentTarget, target)
+      })
     }
   }
 
@@ -246,6 +271,14 @@
     }
   }
 
+  function enableOnText(input, target) {
+    if (input.value.trim()) {
+      target.removeAttribute('disabled', false)
+    } else {
+      target.setAttribute('disabled', false)
+    }
+  }
+
   function flash(element, prop, value) {
     let originalValue = element[prop]
     element[prop] = value
@@ -281,5 +314,6 @@
   keys.upsert()
 
   template.render('menu')
+  events.attachClipboard()
 })()
 
