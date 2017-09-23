@@ -103,7 +103,7 @@
         <div class="sessions">
           {{hasSessions}}
             {{@sessions}}
-              <h5>Shared on {{=_key}} <span class="link delete js-delete">X</span></h5>
+              <h5>Shared on {{=_key}} <span class="link delete js-delete" data-key="{{=_key}}">X</span></h5>
               <ul>
                 {{@_val}}
                   <li>
