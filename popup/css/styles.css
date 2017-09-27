@@ -2,7 +2,7 @@
   Common */
 
 body {
-  font-family: Helvetica, sans-serif, Tahoma, sans-serif;
+  font-family: Helvetica, Tahoma, sans-serif;
   font-size: 100%;
   margin: 0;
   background: #FFF;
@@ -15,11 +15,11 @@ a, .link {
   outline: none;
   text-decoration: none;
   cursor: pointer;
-  color: #276A94;
+  color: #F1B70F;
 }
 
 a:hover, .link:hover {
-  color: #31729a;
+  color: #F2C40F;
 }
 
 pre {
@@ -30,9 +30,7 @@ pre {
 }
 
 input {
-  height: 3em;
-  padding: 0 8px;
-  border-radius: 5px;
+  padding: 0 2px;
   box-shadow: none;
   box-sizing: border-box;
 }
@@ -43,22 +41,30 @@ textarea {
   box-sizing: border-box;
 }
 
-input, textarea {
+input[type="text"] {
+  height: 3em;
+}
+
+input[type="text"], textarea {
   width: 100%;
+}
+
+input, textarea {
   font-size: 0.7em;
   color: rgba(34, 34, 40, 0.7);
-  background-color: rgba(216, 216, 216, 0.2);
-  border: 1px solid rgba(216, 216, 216, 0.3);
+  border: none;
+  border-bottom: 1px solid #8e8e8e;
 }
 
 input:focus, textarea:focus {
   outline: -webkit-focus-ring-color auto 2px;
-  outline-color: #276A94;
+  outline-color: #F1B70F;
 }
 
 section {
-  margin: 25px 0 25px;
+  margin: 25px 0 20px;
   position: relative;
+  overflow: hidden;
 }
 
 img {
@@ -77,6 +83,18 @@ hr {
   text-align: center;
 }
 
+.text-right {
+  text-align: right;
+}
+
+.pull-left {
+  float: left;
+}
+
+.pull-right {
+  float: right;
+}
+
 .small {
   font-size: smaller;
 }
@@ -85,51 +103,64 @@ hr {
   display: none;
 }
 
+.flex-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between
+}
+
+
 /* ----------------------------------------------
   Main */
 
 .body {
   width: 25em;
   max-height: 40em;
-  padding: 0 1em;
 }
 
 .app {
   position: relative;
+  padding: 0 1em;
 }
 
 .app-logo {
-  top: -4px;
-  right: 1em;
-  position: absolute;
+  margin-top: 20px;
+  text-align: center;
 }
 
 .btn {
-  width: 100%;
   padding: 6px 20px;
 
   line-height: 20px;
   border-radius: 20px;
-  border: none;
   outline: none;
 
   font-weight: 500;
   text-transform: uppercase;
 
-  background-color: #276A94;
-  color: #FFF;
+  border: 1px solid #F1B70F;
+  background-color: transparent;
+  color: #F1B70F;
 
   cursor: pointer;
   display: block;
 }
 
 .btn:hover {
-  background: #31729a;
+  border-color: #F2C40F;
+  background-color: #F2C40F;
+  color: #FFF;
 }
 
 .btn[disabled] {
   cursor: default;
-  background-color: #CCC;
+  color: #CCC;
+  border: 1px solid #CCC;
+}
+.btn[disabled]:hover {
+  background-color: #FFF;
+  color: #CCC;
+  border-color: #CCC;
 }
 
 .title {
@@ -143,20 +174,25 @@ hr {
 }
 
 .error {
-  margin-bottom: 8px;
+  margin-bottom: 15px;
   font-size: 0.8em;
+  line-height: 16px;
   color: #D00909;
 }
 
 .delete {
+  font-size: 0.9em;
   float: right;
+  font-weight: 500;
   color: #D00909;
   vertical-align: middle;
   display: inline-block;
 }
+.delete:hover {
+  color: #D00909;
+}
 
 .go-back {
-  margin-bottom: 8px;
   display: inline-block;
 }
 
@@ -175,12 +211,16 @@ hr {
   margin: 25px 0 10px;
 }
 
+.menu .btn {
+  width: 100%;
+}
+
 
 /* ----------------------------------------------
   Share - Password */
 
 .share input[name="pubkey"] {
-  margin: 8px 0;
+  margin: 1em 0 1.5em;
 }
 
 .share .save-password {
@@ -199,10 +239,6 @@ hr {
 
 /* ----------------------------------------------
   Share - Result */
-
-.share .share-session-btn-container {
-  margin-top: 10px;
-}
 
 .share .shared-session {
   margin-top: 30px;
@@ -244,18 +280,27 @@ hr {
   margin-top: 8px;
 }
 
-.restore .restore-session-btn {
-  margin: 15px auto 0;
+.restore-session-actions {
+  margin-top: 15px;
 }
-
 
 
 /* ----------------------------------------------
   History */
 
+.history {
+  margin-bottom: 15px;
+}
+
 .history .explanation {
   font-size: 12px;
-  margin: 8px 0 15px;
+  margin: 8px 0 25px;
+}
+
+.sessions {
+  max-height: 280px;
+  margin-bottom: 15px;
+  overflow: auto;
 }
 
 .sessions .delete {

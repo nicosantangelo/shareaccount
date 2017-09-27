@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
-  "name": "ShareSafe",
-  "description": "Share your current session securely",
-  "short_name": "Share safe",
+  "name": "ShareAccount",
+  "description": "Share your current account with others without revealing your password, securely.",
+  "short_name": "ShareAccount",
   "version": "0.0.3",
   "icons": {
     "18": "icons/18.png",
