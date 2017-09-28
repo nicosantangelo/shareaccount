@@ -60,7 +60,7 @@
 
         } catch(e) {
           console.warn(e)
-          showError('An error occurred trying to encrypt your session. Check that the public key is correct.')
+          showError('An error occurred trying to encrypt your session. Check that the code is correct.')
         }
       })
 
@@ -84,7 +84,7 @@
 
         } catch(e) {
           console.warn(e)
-          showError('An error occurred trying to restore the session. Check that the encrypted text is correct and was generated with your public key.')
+          showError('An error occurred trying to restore the session. Check that the encrypted text is correct and was generated with your code.')
         }
       })
 
@@ -278,7 +278,7 @@
 
   function showError(text) {
     const errorEl = getElementById('js-error')
-    flash(errorEl, 'innerHTML', text, 2800)
+    flash(errorEl, 'innerHTML', text, 4500)
   }
 
   function addEventListener(selector, event, fn) {
