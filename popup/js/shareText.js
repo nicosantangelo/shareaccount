@@ -8,14 +8,12 @@
   const DELETE_TIMEOUT = 1000 * 60 * 10 // Ten minutes
   const PASTE_EE_API_KEY = ''
 
-  const URL = 'https://api.paste.ee/v1/pastes?key=' + PASTE_EE_API_KEY
-
 
   const shareText = {
     getLink: function(title, text, success, error) {
       log('Request share link for', title)
 
-      postJSON(this.getRequestData(title, text), function(response) {
+      postJSON('https://api.paste.ee/v1/pastes', this.getRequestData(title, text), function(response) {
         log('Success', response)
         success && success(response.link)
         setTimeout(function() { shareText.deleteLink(response.id) }, DELETE_TIMEOUT)
@@ -29,7 +27,7 @@
     deleteLink: function(id) {
       log('Deleting link', id)
 
-      postJSON({ id }, function() {
+      deleteJSON(`https://api.paste.ee/v1/pastes/${id}`, {}, function() {
         log('Link', id, 'deleted')
       },
       function(response) {
@@ -47,11 +45,19 @@
   }
 
 
-  function postJSON(data, success, error) {
+  function postJSON(url, data, success, error) {
+    return sendJSON(url, data, 'POST', success, error)
+  }
+
+  function deleteJSON(url, data, success, error) {
+    return sendJSON(url, data, 'DELETE', success, error)
+  }
+
+  function sendJSON(url, data, method, success, error) {
     http({
-      url: URL,
-      method: 'POST',
+      url: url + '?key=' + PASTE_EE_API_KEY,
       json: true,
+      method,
       data,
       success,
       error
