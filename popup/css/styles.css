@@ -30,7 +30,7 @@ pre {
 }
 
 input {
-  padding: 0 2px;
+  padding: 0 5px;
   box-shadow: none;
   box-sizing: border-box;
 }
@@ -57,7 +57,12 @@ input, textarea {
 }
 
 input:focus, textarea:focus {
+  outline: -webkit-focus-ring-color auto 2px;
+  outline-color: #F1B70F;
+}
+input[type="submit"]:focus {
   box-shadow: 0 2px 6px 0 #F1B70F;
+  outline: none;
 }
 
 section {
