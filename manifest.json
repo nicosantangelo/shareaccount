@@ -21,5 +21,6 @@
     "cookies",
     "http://*/*",
     "https://*/*"
-  ]
+  ],
+  "content_security_policy": "default-src 'self'; script-src 'self' 'unsafe-eval' https://www.google-analytics.com; img-src 'self' https://www.google-analytics.com https://stats.g.doubleclick.net data:"
 }
