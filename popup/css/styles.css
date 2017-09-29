@@ -51,7 +51,6 @@ input[type="text"], textarea {
 
 input, textarea {
   font-size: 0.7em;
-  color: rgba(34, 34, 40, 0.7);
   border: none;
   border-bottom: 1px solid #8e8e8e;
 }
@@ -81,6 +80,10 @@ hr {
 
 .m-t {
   margin-top: 20px;
+}
+
+.m-t-sm {
+  margin-top: 15px;
 }
 
 .text-center {
@@ -171,8 +174,12 @@ hr {
   font-size: 1.1em;
 }
 
+.explanation {
+  font-size: 12px;
+  margin: 8px 0 25px;
+}
+
 .action-icon {
-  margin-right: 8px;
   display: inline-block;
   cursor: pointer;
 }
@@ -274,7 +281,15 @@ hr {
 .restore {
 }
 
-.restore [name="pubkey"] {
+.restore .your-code {
+  margin-top: 20px;
+}
+
+.restore .your-code .action-icon {
+  margin-right: 8px;
+}
+
+.restore .your-code [name="pubkey"] {
   width: 85%;
   margin-right: 5px;
 }
@@ -294,11 +309,6 @@ hr {
 
 .history {
   margin-bottom: 15px;
-}
-
-.history .explanation {
-  font-size: 12px;
-  margin: 8px 0 25px;
 }
 
 .sessions {

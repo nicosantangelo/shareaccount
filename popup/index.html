@@ -27,6 +27,7 @@
     <template id="js-template-share">
       <section class="share">
         <div class="title">Current Session</div>
+        <div class="explanation">You're about to share your session on "{{=tab.title}}"</div>
 
         <form action="/" id="js-share-session" class="m-t">
           <div class="small">Recipient code <span class="link" data-balloon="Paste the code of the person you want to share your extension with. It can be found on the 'Restore Session' seccion." data-balloon-length="medium" data-balloon-pos="right">?</span></div>
@@ -45,14 +46,20 @@
           <div class="small">Encrypted session <span class="link" data-balloon="Share this text with the owner of the code" data-balloon-length="medium" data-balloon-pos="right">?</span> <span id="js-session-hide" class="link delete">x</span></div>
 
           <pre id="js-shared-session-text" class="encrypted-data share-result"></pre>
-          <div class="text-right">
-            <div class="action-icon" data-clipboard data-clipboard-target="#js-shared-session-text" data-balloon="Copy encryption" data-balloon-pos="left"><img src="./images/copy.svg" alt="Copy encryption" width="12" /></div>
 
-          </div>
+          <div class="action-icon" data-clipboard data-clipboard-target="#js-shared-session-text" data-balloon="Copy encryption" data-balloon-pos="right"><img src="./images/copy.svg" alt="Copy encryption" width="12" /></div>
 
-          <div class="m-t">
-            <span id="js-share-text-link" class="share-text-link share-result"></span>
-            <div class="action-icon" data-balloon="Copy link" data-clipboard data-clipboard-target="#js-share-text-link"><img src="./images/copy.svg" alt="Copy link" width="12" /></div>
+          <div class="m-t-sm">
+            <div class="small m-b-xs">or, share this link:</div>
+
+            <span id="js-share-text-link" class="share-text-link share-result">https://paste.ee/SkeIFm</span>
+
+            <div class="action-icon" data-balloon="Copy link" data-clipboard data-clipboard-target="#js-share-text-link">
+              <img src="./images/copy.svg" alt="Copy link" width="12" />
+            </div>
+            <small>
+              <span class="link" data-balloon="The site contains the encrypted session and it's only visible to people with the link. It'll be deleted in 10 minutes" data-balloon-length="medium" data-balloon-pos="top">?</span>
+            </small>
           </div>
         </div>
       </section>
@@ -64,19 +71,20 @@
     <template id="js-template-restore">
       <section class="restore">
         <div class="title">Restore session</div>
+        <div class="explanation">Share your code with the session owner and paste the text he shares with you below</div>
 
-        <div class="m-t">
+        <div class="your-code">
           <div class="small">Your code</div>
           <input id="js-user-pubkey" name="pubkey" type="text" value="{{=publicKey}}" readonly>
-          <div class="action-icon" data-balloon="Copy key" data-clipboard data-clipboard-target="#js-user-pubkey"><img src="./images/copy.svg" alt="Copy key" width="12" /></div>
-          <div id="js-regenerate-keys" class="action-icon" data-balloon="Regenerate keys. Remember that by regenerating your keys you'll loose your current pair forever, so you won't be able or regerate old sessions." data-balloon-length="large" data-balloon-pos="left"><img src="./images/refresh.svg" alt="Regenerate keys" width="12" /></div>
+          <div class="action-icon" data-balloon="Copy code" data-clipboard data-clipboard-target="#js-user-pubkey"><img src="./images/copy.svg" alt="Copy code" width="12" /></div>
+          <div id="js-regenerate-keys" class="action-icon" data-balloon="Regenerate code. Remember that by regenerating your code you'll loose your current one forever, so you won't be able or regerate old sessions." data-balloon-length="large" data-balloon-pos="left"><img src="./images/refresh.svg" alt="Regenerate code" width="12" /></div>
         </div>
 
         <form action="/" id="js-restore-session" class="m-t">
           <div>
             <div class="small">Encrypted session <span class="link" data-balloon="Paste the encrypted result shared with you. If you gave the sender you code, you'll be the only one able to decrypt it." data-balloon-length="medium" data-balloon-pos="right">?</span></div>
-            <textarea name="data" placeholder="Ex: U2FsdGVkX1/6bHkbv2PuXxed78svar+Pf9c+U3ojbfnlCuy1KuFAZwXXbm/L3e2v2IQQbf8iAwlkqrxazN9Og==" rows="10"></textarea>
-          </div>
+            <textarea name="data" placeholder='For example: {"iv":"C+Qfxtx6UM6YkQ7glsVsLg==", "v":1, "iter":10000, "ks":128, "ts":64, "mode":"ccm", "adata":"", "cipher":"aes", "kemtag":"dJN3vJbV4C", "ct":"psRDxcWb"}' rows="10"></textarea>
+          </divi
 
           <div class="restore-session-actions flex-container">
             <div class="js-go-back go-back link">&lsaquo; back</div>
@@ -92,7 +100,7 @@
     <template id="js-template-history">
       <section class="history">
         <div class="title">Shared sessions</div>
-        <div class="explanation">We only keep track of URLs and titles for a month, no sessions</div>
+        <div class="explanation">We only keep track of URLs and titles and only for a month, no sessions are stored</div>
 
         <div class="sessions">
           {{hasSessions}}

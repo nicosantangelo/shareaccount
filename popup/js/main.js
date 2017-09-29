@@ -267,7 +267,11 @@
   // Utils
 
   function fullRender(name) {
-    configuration.get(config => template.render(name, config))
+    getCurrentTab(tab =>
+      configuration.get(config =>
+        template.render(name, Object.assign({ tab }, config))
+      )
+    )
   }
 
   function getCurrentTab(callback) {
