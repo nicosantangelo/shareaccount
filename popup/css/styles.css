@@ -65,7 +65,7 @@ input[type="submit"]:focus {
 }
 
 section {
-  margin: 25px 0 20px;
+  margin: 25px 0 15px;
   position: relative;
   overflow: hidden;
 }
@@ -247,6 +247,10 @@ hr {
   display: inline-block;
 }
 
+.share .flex-container {
+  padding-bottom: 5px;
+}
+
 
 /* ----------------------------------------------
   Share - Result */
@@ -301,6 +305,7 @@ hr {
 
 .restore-session-actions {
   margin-top: 15px;
+  padding-bottom: 5px;
 }
 
 
