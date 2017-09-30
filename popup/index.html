@@ -27,7 +27,7 @@
     <template id="js-template-share">
       <section class="share">
         <div class="title">Current Session</div>
-        <div class="explanation">You're about to share your session on "{{=tab.title}}"</div>
+        <div class="explanation">You're about to share your "{{=tab.title}}" session.</div>
 
         <form action="/" id="js-share-session" class="m-t">
           <div class="small">Recipient code <span class="link" data-balloon="Paste the code of the person you want to share your extension with. It can be found on the 'Restore Session' seccion." data-balloon-length="medium" data-balloon-pos="right">?</span></div>
@@ -84,7 +84,7 @@
           <div>
             <div class="small">Encrypted session <span class="link" data-balloon="Paste the encrypted result shared with you. If you gave the sender you code, you'll be the only one able to decrypt it." data-balloon-length="medium" data-balloon-pos="right">?</span></div>
             <textarea name="data" placeholder='For example: {"iv":"C+Qfxtx6UM6YkQ7glsVsLg==", "v":1, "iter":10000, "ks":128, "ts":64, "mode":"ccm", "adata":"", "cipher":"aes", "kemtag":"dJN3vJbV4C", "ct":"psRDxcWb"}' rows="10"></textarea>
-          </divi
+          </div>
 
           <div class="restore-session-actions flex-container">
             <div class="js-go-back go-back link">&lsaquo; back</div>
