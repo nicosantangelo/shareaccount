@@ -1,0 +1,109 @@
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  min-height: 100%;
+  background-color: #FFF;
+  position: relative;
+}
+
+.wrapper {
+  height: 100%;
+  padding-top: 120px;
+}
+
+/* ----------------------------------- */
+
+.rectangle-bound {
+  width: 100%;
+  height: 60px;
+  background-color: #F2C40F;
+  position: absolute;
+}
+
+.rectangle-upper-bound {
+  border-bottom: 1px solid #979797;
+  left: 0;
+  top: 0;
+}
+
+.rectangle-lower-bound {
+  border-top: 1px solid #979797;
+  left: 0;
+  bottom: 0;
+}
+
+/* ----------------------------------- */
+
+.logo {
+  margin: 0 auto;
+}
+
+/* ----------------------------------- */
+
+.description {
+  padding: 50px 0;
+  font-size: 25px;
+  font-family: 'HelveticaNeue', Helvetica, sans-serif;
+  color: #868587;
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .description {
+    font-size: 26px;
+  }
+}
+
+@media (min-width: 992px) {
+  .description {
+    font-size: 35px;
+  }
+}
+
+
+/* ----------------------------------- */
+
+.button {
+  display: inline-block;
+  padding: 10px 28px;
+  font-size: 20px;
+  border-radius: 5px;
+  border: none;
+  color: #FFF;
+  text-align: center;
+  text-transform: uppercase;
+  white-space: nowrap;
+  vertical-align: middle;
+  cursor: pointer;
+}
+
+.button-primary {
+  color: #FFF;
+  background-color: #F2C40F;
+}
+
+.button-primary:hover {
+  background-color: #F1B70F;
+  color: #FFF;
+  text-decoration: none;
+}
+
+.installed-button {
+  background-color: #979fa3;
+}
+
+.installed-button:hover {
+  background-color: #979fa3;
+}
+
+@media (min-width: 768px) {
+  .install-button {
+    padding: 10px 72px;
+  }
+}
