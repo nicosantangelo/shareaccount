@@ -49,6 +49,7 @@ body {
 
 @media (min-width: 768px) {
   .logo {
+    min-height: 56px;
     padding: 0;
   }
 }
