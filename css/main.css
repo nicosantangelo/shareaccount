@@ -14,7 +14,7 @@ body {
 
 .wrapper {
   height: 100%;
-  padding-top: 120px;
+  padding-top: 165px;
 }
 
 /* ----------------------------------- */
@@ -42,13 +42,21 @@ body {
 
 .logo {
   margin: 0 auto;
+  padding: 0 12px;
 }
+
+@media (min-width: 768px) {
+  .logo {
+    padding: 0;
+  }
+}
+
 
 /* ----------------------------------- */
 
 .description {
   padding: 50px 0;
-  font-size: 25px;
+  font-size: 22px;
   font-family: 'HelveticaNeue', Helvetica, sans-serif;
   color: #868587;
   text-align: center;
@@ -56,13 +64,13 @@ body {
 
 @media (min-width: 768px) {
   .description {
-    font-size: 26px;
+    font-size: 24px;
   }
 }
 
 @media (min-width: 992px) {
   .description {
-    font-size: 35px;
+    font-size: 27px;
   }
 }
 
