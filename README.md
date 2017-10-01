@@ -19,6 +19,8 @@ Chrome Extension to share your account **without** giving out your **password**.
 :tophat:
 **Voilà**
 
+[See graph](https://i.imgur.com/LrDWrW2.png)
+
 ### How it works?
 
 The extension uses the Standford Javascript Crypto Lib implementation of EC-ElGamal. It generates a new public-private key combination for each extension upon frist use and uses it for encrypt/decrypt the session.
