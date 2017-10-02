@@ -130,11 +130,6 @@ hr {
   padding: 0 1em;
 }
 
-.app-logo {
-  margin-top: 20px;
-  text-align: center;
-}
-
 .btn {
   padding: 6px 20px;
 
@@ -213,13 +208,14 @@ hr {
 
 .menu {
   width: 80%;
+  margin-bottom: 25px;
   margin-left: auto;
   margin-right: auto;
 }
 
-.menu .menu-logo {
+.menu-app-logo {
+  margin-top: 20px;
   text-align: center;
-  margin: 25px 0 10px;
 }
 
 .menu .btn {
