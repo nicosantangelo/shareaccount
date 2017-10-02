@@ -12,10 +12,20 @@ body {
   position: relative;
 }
 
+a {
+  outline: none;
+  text-decoration: none;
+  cursor: pointer;
+  color: #F1B70F;
+}
+
+a:hover, a:visited {
+  color: #F2C40F;
+}
+
 .wrapper {
   height: 100%;
-  height: calc(100% - 60px);
-  padding: 65px 0 65px;
+  padding-top: 55px;
 }
 
 /* ----------------------------------- */
@@ -48,12 +58,14 @@ body {
 /* ----------------------------------- */
 
 .logo {
-  margin: 0 auto;
+  width: 220px;
+  margin: 0 auto 55px;
   padding: 0 12px;
 }
 
 @media (min-width: 768px) {
   .logo {
+    width: 300px;
     min-height: 56px;
     padding: 0;
   }
@@ -63,10 +75,11 @@ body {
 /* ----------------------------------- */
 
 .description {
-  padding: 50px 0;
+  padding: 50px 0 35px;
   font-size: 18px;
   font-family: 'HelveticaNeue', Helvetica, sans-serif;
   color: #868587;
+  text-align: center;
 }
 
 @media (min-width: 768px) {
@@ -75,13 +88,16 @@ body {
   }
 }
 
-
 /* ----------------------------------- */
 
+.install-container {
+  padding-bottom: 55px;
+  text-align: center;
+}
+
 .button {
-  display: inline-block;
   padding: 10px 28px;
-  font-size: 20px;
+  font-size: 16px;
   border-radius: 5px;
   border: none;
   color: #FFF;
@@ -90,29 +106,48 @@ body {
   white-space: nowrap;
   vertical-align: middle;
   cursor: pointer;
+  display: inline-block;
 }
 
 .button-primary {
-  color: #FFF;
   background-color: #F2C40F;
+  color: #FFF;
 }
 
-.button-primary:hover {
+.button-primary:hover, .button-primary:visited {
   background-color: #F1B70F;
   color: #FFF;
   text-decoration: none;
 }
 
-.installed-button {
-  background-color: #979fa3;
+.install-button {
+  margin-bottom: 8px;
 }
 
-.installed-button:hover {
-  background-color: #979fa3;
+.installed-button {
+  background-color: transparent;
+  border: 1px solid #979FA3;
+  color: #979FA3;
+  cursor: default;
+}
+
+.installed-button:hover, .installed-button:visited {
+  background-color: transparent;
+  color: #979FA3;
 }
 
 @media (min-width: 768px) {
+  .button {
+    font-size: 20px;
+  }
+
   .install-button {
     padding: 10px 72px;
   }
+}
+
+/* ----------------------------------- */
+
+.extra-info {
+  font-size: smaller;
 }
