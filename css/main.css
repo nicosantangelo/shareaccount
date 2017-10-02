@@ -13,10 +13,9 @@ body {
 }
 
 .wrapper {
-  height: 90%;
-  height: calc(100% - 120px);
+  height: 100%;
+  height: calc(100% - 60px);
   padding: 65px 0 65px;
-  overflow: auto;
 }
 
 /* ----------------------------------- */
@@ -42,6 +41,12 @@ body {
 
 /* ----------------------------------- */
 
+.siema {
+  box-shadow: 0 5px 5px 0 rgba(76,108,231,0.12);
+}
+
+/* ----------------------------------- */
+
 .logo {
   margin: 0 auto;
   padding: 0 12px;
@@ -59,21 +64,14 @@ body {
 
 .description {
   padding: 50px 0;
-  font-size: 22px;
+  font-size: 18px;
   font-family: 'HelveticaNeue', Helvetica, sans-serif;
   color: #868587;
-  text-align: center;
 }
 
 @media (min-width: 768px) {
   .description {
-    font-size: 24px;
-  }
-}
-
-@media (min-width: 992px) {
-  .description {
-    font-size: 27px;
+    font-size: 22px;
   }
 }
 

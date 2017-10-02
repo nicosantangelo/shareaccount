@@ -14,4 +14,33 @@
       })
     }, false)
   }
+
+  var timeoutId = null
+
+  var siema = new Siema({
+    selector: '.siema',
+    duration: 200,
+    easing: 'ease-out',
+    perPage: 1,
+    startIndex: 0,
+    draggable: true,
+    multipleDrag: true,
+    threshold: 20,
+    loop: true,
+    onInit: function() {},
+    onChange: function() {
+      clearTimeout(timeoutId)
+    }
+  });
+
+  function autoloop(index) {
+    if (index > 5) index = 0
+
+    timeoutId = setTimeout(function() {
+      siema.next()
+      autoloop(index + 1)
+    }, 2000 + (200 * index))
+  }
+
+  autoloop(0)
 })()
