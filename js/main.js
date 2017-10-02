@@ -19,7 +19,7 @@
 
   var siema = new Siema({
     selector: '.siema',
-    duration: 200,
+    duration: 500,
     easing: 'ease-out',
     perPage: 1,
     startIndex: 0,
