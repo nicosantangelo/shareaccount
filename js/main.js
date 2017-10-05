@@ -7,10 +7,13 @@
 
   } else {
     installButton.addEventListener('click', function(event) {
-      chrome.webstore.install(this.href, function() {
-        event.preventDefault()
-      }, function() {
+      var href = this.href
+
+      event.preventDefault()
+
+      chrome.webstore.install(href, function() {}, function() {
         console.log('Whops, inline install failed, continue with default link')
+        window.location = href
       })
     }, false)
   }
