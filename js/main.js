@@ -16,10 +16,11 @@
   }
 
   var timeoutId = null
+  var DURATION = 550
 
   var siema = new Siema({
     selector: '.siema',
-    duration: 550,
+    duration: DURATION,
     easing: 'ease-out',
     perPage: 1,
     startIndex: 0,
@@ -36,8 +37,8 @@
   function autoloop() {
     timeoutId = setTimeout(function() {
       siema.next()
-      autoloop()
-    }, 3500)
+      setTimeout(autoloop, DURATION)
+    }, 3000)
   }
 
   autoloop()
