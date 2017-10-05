@@ -67,7 +67,6 @@ input[type="submit"]:focus {
 section {
   margin: 25px 0 15px;
   position: relative;
-  overflow: hidden;
 }
 
 img {
@@ -84,6 +83,10 @@ hr {
 
 .m-t-sm {
   margin-top: 15px;
+}
+
+.m-b-xs {
+  margin-bottom: 10px;
 }
 
 .text-center {
@@ -172,6 +175,7 @@ hr {
 .explanation {
   font-size: 12px;
   margin: 8px 0 25px;
+  word-break: break-all;
 }
 
 .action-icon {
@@ -252,7 +256,8 @@ hr {
   Share - Result */
 
 .share .shared-session {
-  margin-top: 30px;
+  margin-top: 15px;
+  margin-bottom: 15px;
 }
 
 .share .shared-session .delete {
@@ -260,7 +265,7 @@ hr {
 }
 
 .share .shared-session .share-result {
-  max-height: 15em;
+  max-height: 12.8em;
   overflow: auto;
   color: rgba(34, 34, 40, 0.7);
   font-family: monospace;
@@ -272,6 +277,8 @@ hr {
 
 .share .shared-session .share-text-link {
   padding-right: 5px;
+  margin-bottom: 5px;
+  word-break: break-all;
 }
 
 
