@@ -29,7 +29,7 @@
     <template id="js-template-share">
       <section class="share">
         <div class="title">Current Session</div>
-        <div class="explanation">You're about to share your "{{=tab.title}}" session.</div>
+        <div class="explanation">You're about to share your <i>"{{=tab.title}}"</i> session.</div>
 
         <form action="/" id="js-share-session" class="m-t">
           <div class="small">Recipient code <span class="link" data-balloon="Paste the code of the person you want to share your extension with. It can be found on the 'Restore Session' seccion." data-balloon-length="medium" data-balloon-pos="right">?</span></div>
@@ -54,19 +54,22 @@
           <div class="m-t-sm">
             <div class="small m-b-xs">or, share this link:</div>
 
-            <span id="js-share-text-link" class="share-text-link share-result">https://paste.ee/SkeIFm</span>
+            <div id="js-share-text-link" class="share-text-link share-result">Creating link...</div>
 
-            <div class="action-icon" data-balloon="Copy link" data-clipboard data-clipboard-target="#js-share-text-link">
-              <img src="./images/copy.svg" alt="Copy link" width="12" />
+            <div id="js-share-text-actions" class="hidden">
+              <div class="action-icon" data-balloon="Copy link" data-balloon-pos="right" data-clipboard data-clipboard-target="#js-share-text-link">
+                <img src="./images/copy.svg" alt="Copy link" width="12" />
+              </div>
+              <small>
+                &nbsp;
+                <span class="link" data-balloon="The site contains the encrypted session text. It'll be deleted in 10 minutes or upon the first viewing."  data-balloon-pos="right" data-balloon-length="large" data-balloon-pos="top">?</span>
+              </small>
             </div>
-            <small>
-              <span class="link" data-balloon="The site contains the encrypted session and it's only visible to people with the link. It'll be deleted in 10 minutes" data-balloon-length="medium" data-balloon-pos="top">?</span>
-            </small>
           </div>
         </div>
       </section>
 
-      <div id="js-error" class="error"></div>
+      <div id="js-error" class="error hidden"></div>
     </template>
 
 
@@ -95,7 +98,7 @@
         </form>
       </section>
 
-      <div id="js-error" class="error"></div>
+      <div id="js-error" class="error hidden"></div>
     </template>
 
 
@@ -117,27 +120,29 @@
               </ul>
             {{/@sessions}}
           {{:hasSessions}}
-            <div class="small">No shared session yet</div>
+            <div class="small">No shared sessions yet</div>
           {{/hasSessions}}
         </div>
 
         <div class="js-go-back go-back link">&lsaquo; back</div>
       </section>
 
-      <div id="js-error" class="error"></div>
+      <div id="js-error" class="error hidden"></div>
     </template>
 
 
     <script src="js/vendor/clipboard.min.js"></script>
     <script src="js/vendor/sjcl.min.js"></script>
     <script src="js/vendor/_t.min.js"></script>
+    <script async src="js/vendor/base64.min.js"></script>
+    <script async src="js/vendor/rawdeflate.min.js"></script>
 
     <script src="js/log.js"></script>
     <script src="js/http.js"></script>
-    <script src="js/cryptography.js"></script>
-    <script src="js/shareText.js"></script>
     <script src="js/configuration.js"></script>
-    <script src="js/cookieManager.js"></script>
+    <script src="js/cryptography.js"></script>
+    <script async src="js/shareText.js"></script>
+    <script async src="js/cookieManager.js"></script>
 
     <script src="js/main.js"></script>
 

@@ -55,7 +55,12 @@
             show('js-shared-session')
             getElementById('js-shared-session-text').innerHTML = encryptedData
 
-            shareText.getLink(tab.title, encryptedData, link => getElementById('js-share-text-link').innerHTML = link)
+            shareText.getLink(encryptedData, function success(link) {
+              getElementById('js-share-text-link').innerHTML = link
+              show('js-share-text-actions')
+            }, function error() {
+              getElementById('js-share-text-link').innerHTML = 'Whops, couldn\'t get the link'
+            })
           })
 
         } catch(e) {
@@ -89,9 +94,11 @@
       })
 
       addEventListener('#js-regenerate-keys', 'click', function(event) {
-        keys.generate()
+        const { publicKey } = keys.generate()
         session.removeAll()
-        fullRender('restore')
+
+        getElementById('js-user-pubkey').value = publicKey
+        flash(event.currentTarget, 'data-balloon', 'Restored!')
       })
 
       this.attachConditionalSubmitEvents({ source: 'data', target: 'submit' })
@@ -207,7 +214,7 @@
       })
     },
 
-    getKey(timestamp) {
+    getKey: function(timestamp) {
       return [
         timestamp.getMonth(),
         timestamp.getDate(),
@@ -215,7 +222,7 @@
       ].join('/')
     },
 
-    getMonthFromKey(key) {
+    getMonthFromKey: function(key) {
       return key.split('/')[0]
     }
   }
@@ -226,7 +233,7 @@
       privateKey: null,
     },
 
-    upsert() {
+    upsert: function() {
       if (this.isGenerated()) return
 
       configuration.get(this.pair, function(publicKey, privateKey) {
@@ -239,25 +246,28 @@
       }.bind(this))
     },
 
-    generate() {
+    generate: function() {
       log('Saving user keys for later signing')
 
       const pair = cryptography.createKeys()
 
       this.pair = pair
       configuration.set(pair)
+      return this.pair
     },
 
-    isGenerated() {
+    isGenerated: function() {
       return this.publicKey && this.privateKey
     },
 
-    encrypt(publicKey, message) {
-      return cryptography.encrypt(publicKey, JSON.stringify(message))
+    encrypt: function(publicKey, message) {
+      const secret = cryptography.decodePublicKey(publicKey)
+      return cryptography.encrypt(secret, JSON.stringify(message))
     },
 
-    decrypt(encrypted) {
-      const decryption = cryptography.decrypt(this.pair.privateKey, encrypted)
+    decrypt: function(encrypted) {
+      const secret = cryptography.decodePrivateKey(this.pair.privateKey)
+      const decryption = cryptography.decrypt(secret, encrypted)
       return JSON.parse(decryption)
     }
   }
@@ -282,7 +292,8 @@
 
   function showError(text) {
     const errorEl = getElementById('js-error')
-    flash(errorEl, 'innerHTML', text, 4500)
+    errorEl.innerHTML = text
+    flash(errorEl, 'className', 'error', 4500)
   }
 
   function addEventListener(selector, event, fn) {
@@ -353,5 +364,6 @@
 
   template.render('menu')
   events.attachClipboard()
+
 })()
 

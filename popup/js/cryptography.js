@@ -15,12 +15,12 @@
 
 
   const cryptography = {
-    encrypt(publicKey, plainText) {
-      return sjcl.encrypt(decodePublicKey(publicKey), plainText) // use all defaults
+    encrypt: function(secret, plainText, options={}) {
+      return sjcl.encrypt(secret, plainText, options) // use all defaults
     },
 
-    decrypt(privateKey, cipherText) {
-      return sjcl.decrypt(decodePrivateKey(privateKey), cipherText) // use all defaults
+    decrypt: function(secret, cipherText, options={}) {
+      return sjcl.decrypt(secret, cipherText, options) // use all defaults
     },
 
     createKeys: function() {
@@ -30,26 +30,28 @@
         privateKey: encodePrivateKey(pair.sec.get()),
         publicKey : encodePublicKey(pair.pub.get())
       }
+    },
+
+    randomkey: function() {
+      return sjcl.codec.base64.fromBits(sjcl.random.randomWords(8, 0), 0)
+    },
+
+    decodePublicKey: function(text) {
+      return new scheme.publicKey(curve, codec.toBits(text))
+    },
+
+    decodePrivateKey: function(text) {
+      return new scheme.secretKey(curve, curve.field.fromBits(codec.toBits(text)))
     }
   }
-
 
   function encodePublicKey(pub) {
     return codec.fromBits(pub.x.concat(pub.y))
   }
 
-  function decodePublicKey(text) {
-    return new scheme.publicKey(curve, codec.toBits(text))
-  }
-
   function encodePrivateKey(sec) {
     return codec.fromBits(sec)
   }
-
-  function decodePrivateKey(text) {
-    return new scheme.secretKey(curve, curve.field.fromBits(codec.toBits(text)))
-  }
-
 
   window.cryptography = cryptography
 })()
