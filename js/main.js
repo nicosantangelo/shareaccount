@@ -19,7 +19,7 @@
 
   var siema = new Siema({
     selector: '.siema',
-    duration: 500,
+    duration: 550,
     easing: 'ease-out',
     perPage: 1,
     startIndex: 0,
@@ -33,14 +33,15 @@
     }
   });
 
-  function autoloop(index) {
-    if (index > 5) index = 0
-
+  function autoloop() {
     timeoutId = setTimeout(function() {
       siema.next()
-      autoloop(index + 1)
-    }, 2000 + (200 * index))
+      autoloop()
+    }, 3500)
   }
 
-  autoloop(0)
+  autoloop()
+
+  document.getElementById('js-prev').addEventListener('click', function() { siema.prev() })
+  document.getElementById('js-next').addEventListener('click', function() { siema.next() })
 })()

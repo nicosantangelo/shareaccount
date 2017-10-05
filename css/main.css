@@ -12,14 +12,15 @@ body {
   position: relative;
 }
 
-a {
+a, .link {
   outline: none;
   text-decoration: none;
   cursor: pointer;
   color: #F1B70F;
 }
 
-a:hover, a:visited {
+a:hover, a:visited,
+.link:hover {
   color: #F2C40F;
 }
 
