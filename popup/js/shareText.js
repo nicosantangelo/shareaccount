@@ -1,46 +1,67 @@
-/* globals http */
+/* globals http, cryptography, Base64, RawDeflate */
 
 (function() {
   'use strict'
 
-  let log = window.log.bind('[ShareText]')
+  const log = window.log.bind('[ShareText]')
 
-  const DELETE_TIMEOUT = 1000 * 60 * 10 // Ten minutes
-  const PASTE_EE_API_KEY = ''
-
+  const BASE_URL = 'https://privatebin.net'
+  const ENCRYPT_OPTIONS = { mode: 'gcm', ks: 256, ts: 128 }
 
   const shareText = {
-    getLink: function(title, text, success, error) {
-      log('Request share link for', title)
+    getLink: function(text, success, error) {
+      log('Request share link')
 
-      postJSON('https://api.paste.ee/v1/pastes', this.getRequestData(title, text), function(response) {
+      const secret = cryptography.randomkey()
+      const encryption = this.encryptText(secret, text || '')
+
+      this.requestLink(this.getRequestData(encryption), response => {
         log('Success', response)
-        success && success(response.link)
-        setTimeout(function() { shareText.deleteLink(response.id) }, DELETE_TIMEOUT)
+        success && success(this.getPasteURL(secret, response.id))
       },
-      function(response) {
+      response => {
         log('Error', response)
         error && error(response)
       })
     },
 
-    deleteLink: function(id) {
-      log('Deleting link', id)
+    requestLink(data, success, error) {
+      // {status: 1, message: "Please wait 10 seconds between each post."}
+      return postJSON(BASE_URL, data, response => {
+        response = JSON.parse(response)
 
-      deleteJSON(`https://api.paste.ee/v1/pastes/${id}`, {}, function() {
-        log('Link', id, 'deleted')
+        if (response.status === 0) {
+          success(response)
+        } else if (response.message === 'Please wait 10 seconds between each post.') {
+          setTimeout(() => this.requestLink(data, success, error), 10000)
+        } else {
+          error(response)
+        }
       },
-      function(response) {
-        log('Error deleting link', id, response)
-      })
+      response => error(response))
     },
 
-    getRequestData: function(title, text) {
-      return {
-        sections: [
-          { name: title, contents: text }
-        ]
-      }
+    getRequestData: function(text) {
+      return [
+        `data=${encodeURIComponent(text)}`,
+        'expire=10min',
+        'formatter=plaintext',
+        'burnafterreading=1',
+        'opendiscussion=0'
+      ].join('&')
+    },
+
+    getPasteURL: function(secret, id) {
+      // https://privatebin.net/?SOME_ID#SOME_SECRET_KEY
+      return `${BASE_URL}/?${id}#${secret}`
+    },
+
+    encryptText: function(secret, text) {
+      return cryptography.encrypt(secret, this.compress(text), ENCRYPT_OPTIONS)
+    },
+
+    compress: function(text) {
+      return Base64.toBase64( RawDeflate.deflate( Base64.utob(text) ) )
     }
   }
 
@@ -49,14 +70,14 @@
     return sendJSON(url, data, 'POST', success, error)
   }
 
-  function deleteJSON(url, data, success, error) {
-    return sendJSON(url, data, 'DELETE', success, error)
-  }
-
   function sendJSON(url, data, method, success, error) {
     http({
-      url: url + '?key=' + PASTE_EE_API_KEY,
-      json: true,
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+        'Accept-Language': 'en-US',
+        'X-Requested-With': 'JSONHttpRequest'
+      },
+      url,
       method,
       data,
       success,
