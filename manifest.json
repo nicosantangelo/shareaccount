@@ -3,7 +3,7 @@
   "name": "ShareAccount",
   "description": "Share your current account with others without revealing your password, securely.",
   "short_name": "ShareAccount",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "icons": {
     "18": "icons/18.png",
     "19": "icons/19.png",
