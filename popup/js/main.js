@@ -49,18 +49,16 @@
 
       addEventListener('#js-share-session', 'submit', function() {
         try {
-          const publicKey = getElementById('js-pubkey').value
+          const publicKey = getFormElement(this, 'pubkey').value
+          const timeoutInMinutes = getFormElement(this, 'timeoutInMinutes').value
 
-          session.store(publicKey, function(encryptedData, tab) {
+          const expirationTime = getExpirationTime(timeoutInMinutes)
+
+          session.store({ publicKey, expirationTime }, function(encryptedData, tab) {
             show('js-shared-session')
-            getElementById('js-shared-session-text').innerHTML = encryptedData
 
-            shareText.getLink(encryptedData, function success(link) {
-              getElementById('js-share-text-link').innerHTML = link
-              show('js-share-text-actions')
-            }, function error() {
-              getElementById('js-share-text-link').innerHTML = 'Whops, couldn\'t get the link'
-            })
+            getElementById('js-shared-session-text').innerHTML = encryptedData
+            displayLink(encryptedData)
           })
 
         } catch(e) {
@@ -74,6 +72,29 @@
       addEventListener('#js-copy-share-text', 'click', () => hide('js-shared-session'))
 
       this.attachConditionalSubmitEvents({ source: 'pubkey', target: 'submit' })
+
+      // --------------------------------------------------------------------
+      // attach-share specific helpers
+
+      function getExpirationTime(timeoutInMinutes) {
+        if (! timeoutInMinutes) return 0
+
+        const ms = timeoutInMinutes * 60 * 1000
+        return Date.now() + ms
+      }
+
+      function displayLink(encryptedData) {
+        shareText.getLink(encryptedData,
+          function success(link) {
+            getElementById('js-share-text-link').innerHTML = link
+            show('js-share-text-actions')
+            window.scrollBy({ top: 500, left: 0, behavior: 'smooth' })
+          },
+          function error() {
+            getElementById('js-share-text-link').innerHTML = 'Whops, couldn\'t get the link'
+          }
+        )
+      }
     },
 
     'attach-restore': function() {
@@ -144,14 +165,25 @@
   }
 
   let session = {
-    store: function(publicKey, callback) {
+    store: function({ publicKey, expirationTime = 0 }, callback) {
+      this.getCurrent(function(tab, cookies) {
+        let data = {
+          url    : tab.url,
+          cookies: cookieManager.setExpirationDate(cookies, expirationTime)
+        }
+        let encryptedData = keys.encrypt(publicKey, data)
+
+        console.log(data.cookies)
+
+        session.record(tab.url, tab.title)
+        callback(encryptedData, tab)
+      })
+    },
+
+    getCurrent(callback) {
       getCurrentTab(function(tab) {
         cookieManager.get(tab.url, function(cookies) {
-          let data = { url: tab.url, cookies }
-          let encryptedData = keys.encrypt(publicKey, data)
-
-          session.record(tab.url, tab.title)
-          callback(encryptedData, tab)
+          return callback(tab, cookies)
         })
       })
     },
@@ -305,10 +337,20 @@
     }
   }
 
+  function getFormElement(form, name) {
+    let elements = form.elements
+
+    for (let i = 0; i < elements.length; i++) {
+      if (elements[i].name === name) {
+        return elements[i]
+      }
+    }
+  }
+
   function preventDefault(fn) {
-    return event => {
+    return function(event) {
       event.preventDefault()
-      fn(event)
+      fn.call(this, event)
     }
   }
 
@@ -353,8 +395,6 @@
   function isEmptyObject(obj) {
     return Object.keys(obj).length === 0
   }
-
-
 
 
   // --------------------------------------------------------------------

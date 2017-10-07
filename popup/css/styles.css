@@ -230,21 +230,21 @@ hr {
 /* ----------------------------------------------
   Share - Password */
 
-.share input[name="pubkey"] {
-  margin: 1em 0 1.5em;
-}
-
 .share .save-password {
   width: 12%;
   background: none;
   border: none;
 }
 
-.share .pubkey-container {
+.share .input-container {
   width: 100%;
   margin-right: 8px;
   position: relative;
   display: inline-block;
+}
+
+.share .input-container input[type="text"] {
+  margin: 0.8em 0 1.5em;
 }
 
 .share .flex-container {

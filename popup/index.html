@@ -32,10 +32,16 @@
         <div class="explanation">You're about to share your <i>"{{=tab.title}}"</i> session.</div>
 
         <form action="/" id="js-share-session" class="m-t">
-          <div class="small">Recipient code <span class="link" data-balloon="Paste the code of the person you want to share your extension with. It can be found on the 'Restore Session' seccion." data-balloon-length="medium" data-balloon-pos="right">?</span></div>
+          <div class="small">Recipient code <span class="link" data-balloon="Paste the code of the person you want to share your extension with. It can be found on the 'Restore Session' seccion." data-balloon-length="medium-xl" data-balloon-pos="right">?</span></div>
 
-          <div class="pubkey-container">
-            <input id="js-pubkey" type="text" name="pubkey" value="" placeholder="Code of the box you're sharing with" autocomplete="off" required />
+          <div class="input-container">
+            <input type="text" name="pubkey" value="2c8c7ed191c330f39fd2624ef3f28c7b5c33300bf392549983c66ef6e5fe56970322f486dc301bcadca8acd211f2fd185a720736ac69131c3a71fed1fdaa20d4" placeholder="Code of the box you're sharing with" autocomplete="off" required />
+          </div>
+
+          <div class="small">Timeout in minutes <span class="link" data-balloon="Explanation." data-balloon-length="medium" data-balloon-pos="right">?</span></div>
+
+          <div class="input-container">
+            <input type="text" name="timeoutInMinutes" value="10" placeholder="Code of the box you're sharing with" />
           </div>
 
           <div class="flex-container">

@@ -13,6 +13,13 @@
       })
     },
 
+    setExpirationDate: function(cookies, expirationTime = 0) {
+      const expirationDate = toUNIX(expirationTime)
+      if (! expirationDate) return cookies
+
+      return cookies.map(cookie => Object.assign(cookie, { expirationDate }))
+    },
+
     set: function(url, cookies) {
       cookies.forEach(function(cookie) {
         let newCookie = Object.assign({ url }, pick(cookie, properties))
@@ -24,10 +31,13 @@
 
   function pick(base, properties) {
     let newObject = {}
-
     properties.forEach(key => newObject[key] = base[key])
 
     return newObject
+  }
+
+  function toUNIX(time) {
+    return time / 1000
   }
 
   window.cookieManager = cookieManager
