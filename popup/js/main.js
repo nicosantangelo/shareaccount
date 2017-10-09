@@ -50,9 +50,9 @@
       addEventListener('#js-share-session', 'submit', function() {
         try {
           let publicKey = getFormElement(this, 'pubkey').value
-          let timeoutInMinutes = getFormElement(this, 'timeoutInMinutes').value
+          let timeout = getFormElement(this, 'timeout').value
 
-          let expirationTime = timeout.getExpirationTime(timeoutInMinutes)
+          let expirationTime = expires.getExpirationTime(timeout)
 
           session.store(publicKey, expirationTime, function(encryptedData, tab) {
             show('js-shared-session')
@@ -127,7 +127,7 @@
           const { title, expirationTime } = session.decrypt(textarea.value)
           notice = `Restore "${title}" session.`
 
-          if (timeout.isExpired(expirationTime)) notice += '\nThe session seems to be expired!'
+          if (expires.isExpired(expirationTime)) notice += '\nThe session seems to be expired!'
 
         } catch(e) {
           notice = ''
@@ -321,21 +321,21 @@
     }
   }
 
-  const timeout = {
-    DEFAULT: 30 * 24 * 60, // A month
+  const expires = {
+    DEFAULT: 30 * 24, // A month
 
-    getExpirationTime(timeoutInMinutes) {
-      timeoutInMinutes = timeoutInMinutes || this.DEFAULT
+    getExpirationTime(timeoutInHours) {
+      timeoutInHours = timeoutInHours || this.DEFAULT
 
-      return Date.now() + this.minutesToMs(timeoutInMinutes)
+      return Date.now() + this.hoursToMs(timeoutInHours)
     },
 
     isExpired(time) {
       return Date.now() >= time
     },
 
-    minutesToMs(minutes) {
-      return minutes * 60 * 60 * 1000
+    hoursToMs(time) {
+      return time * 60 * 1000
     }
   }
 
