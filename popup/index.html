@@ -35,13 +35,14 @@
           <div class="small">Recipient code <span class="link" data-balloon="Paste the code of the person you want to share your extension with. It can be found on the 'Restore Session' seccion." data-balloon-length="medium-xl" data-balloon-pos="right">?</span></div>
 
           <div class="input-container">
-            <input type="text" name="pubkey" value="" placeholder="Code of the box you're sharing with" autocomplete="off" required />
+            <input type="text" name="pubkey" value="" placeholder="Code of the computer you're sharing with" autocomplete="off" required />
           </div>
 
           <div class="small">Timeout in hours <span class="link" data-balloon="Explanation." data-balloon-length="medium" data-balloon-pos="right">?</span></div>
 
-          <div class="input-container">
-            <input type="text" name="timeout" value="" placeholder="Timeout in hours. It'll last a month by deafult." />
+          <div class="input-container timeout-container">
+            <input type="number" name="timeout" value="" min="1" placeholder="It'll last a week by deafult." autocomplete="off" />
+            <div id="js-expires-on" class="expires-on"></div>
           </div>
 
           <div class="flex-container">
@@ -88,6 +89,7 @@
           <div class="small">Your code</div>
           <input id="js-user-pubkey" name="pubkey" type="text" value="{{=publicKey}}" readonly />
           <div class="action-icon" data-balloon="Copy code" data-clipboard data-clipboard-target="#js-user-pubkey"><img src="./images/copy.svg" alt="Copy code" width="12" /></div>
+
           <div id="js-regenerate-keys" class="action-icon" data-balloon="Regenerate code. Remember that by regenerating your code you'll loose your current one forever, so you won't be able or regerate old sessions." data-balloon-length="large" data-balloon-pos="left"><img src="./images/refresh.svg" alt="Regenerate code" width="12" /></div>
         </div>
 

@@ -41,11 +41,11 @@ textarea {
   box-sizing: border-box;
 }
 
-input[type="text"] {
+input[type="text"], input[type="number"] {
   height: 3em;
 }
 
-input[type="text"], textarea {
+input[type="text"], input[type="number"], textarea {
   width: 100%;
 }
 
@@ -238,13 +238,14 @@ hr {
 
 .share .input-container {
   width: 100%;
-  margin-right: 8px;
+  margin: 0.3em 8px 1.5em 0;
   position: relative;
   display: inline-block;
 }
 
-.share .input-container input[type="text"] {
-  margin: 0.8em 0 1.5em;
+.share .timeout-container .expires-on {
+  margin-top: 8px;
+  font-size: 0.7em;
 }
 
 .share .flex-container {

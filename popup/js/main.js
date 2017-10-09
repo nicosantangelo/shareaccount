@@ -47,6 +47,24 @@
     'attach-share': function() {
       log('[Events] Attaching Share events')
 
+      let expiresTimeoutId = null
+
+      addEventListener('[name="timeout"]', 'keyup', function updateExpiresText(event) {
+        clearTimeout(expiresTimeoutId)
+
+        let expiresOn = getElementById('js-expires-on')
+        let timeout = event.target.value
+
+        if (timeout.trim()) {
+          expiresOn.innerText = `Expires on: ${expires.getExpirationString(timeout)}`
+          expiresTimeoutId = setTimeout(function() {
+            updateExpiresText(event)
+          }, 1000)
+        } else {
+          expiresOn.innerText = ''
+        }
+      })
+
       addEventListener('#js-share-session', 'submit', function() {
         try {
           let publicKey = getFormElement(this, 'pubkey').value
@@ -322,20 +340,29 @@
   }
 
   const expires = {
-    DEFAULT: 30 * 24, // A month
+    DEFAULT: 7 * 24, // A week
 
     getExpirationTime(timeoutInHours) {
-      timeoutInHours = timeoutInHours || this.DEFAULT
+      timeoutInHours = this.isValidTimeout(timeoutInHours) ? timeoutInHours : this.DEFAULT
 
       return Date.now() + this.hoursToMs(timeoutInHours)
+    },
+
+    getExpirationString(timeout) {
+      const expirationTime = this.getExpirationTime(timeout)
+      return new Date(expirationTime).toLocaleString()
     },
 
     isExpired(time) {
       return Date.now() >= time
     },
 
-    hoursToMs(time) {
-      return time * 60 * 1000
+    isValidTimeout(timeout) {
+      return parseInt(timeout, 10) > 0
+    },
+
+    hoursToMs(hours) {
+      return hours * 60 * 60 * 1000
     }
   }
 
