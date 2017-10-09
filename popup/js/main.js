@@ -6,7 +6,7 @@
   // --------------------------------------------------------------------
   // Main objects
 
-  let template = {
+  const template = {
     render: function(name, data) {
       log('[Template] Rendering', name,' with data', data)
 
@@ -24,7 +24,7 @@
     }
   }
 
-  let events = {
+  const events = {
     attach: function(name, extra) {
       let attachName = 'attach-' + name
 
@@ -49,12 +49,12 @@
 
       addEventListener('#js-share-session', 'submit', function() {
         try {
-          const publicKey = getFormElement(this, 'pubkey').value
-          const timeoutInMinutes = getFormElement(this, 'timeoutInMinutes').value
+          let publicKey = getFormElement(this, 'pubkey').value
+          let timeoutInMinutes = getFormElement(this, 'timeoutInMinutes').value
 
-          const expirationTime = getExpirationTime(timeoutInMinutes)
+          let expirationTime = timeout.getExpirationTime(timeoutInMinutes)
 
-          session.store({ publicKey, expirationTime }, function(encryptedData, tab) {
+          session.store(publicKey, expirationTime, function(encryptedData, tab) {
             show('js-shared-session')
 
             getElementById('js-shared-session-text').innerHTML = encryptedData
@@ -71,17 +71,13 @@
 
       addEventListener('#js-copy-share-text', 'click', () => hide('js-shared-session'))
 
-      this.attachConditionalSubmitEvents({ source: 'pubkey', target: 'submit' })
+      this.onTextSubmitted('[name="pubkey"]', function(textarea) {
+        const submitButton = document.querySelector('input[name="submit"]')
+        enableIfText(textarea.value, submitButton)
+      })
 
       // --------------------------------------------------------------------
       // attach-share specific helpers
-
-      function getExpirationTime(timeoutInMinutes) {
-        if (! timeoutInMinutes) return 0
-
-        const ms = timeoutInMinutes * 60 * 1000
-        return Date.now() + ms
-      }
 
       function displayLink(encryptedData) {
         shareText.getLink(encryptedData,
@@ -100,10 +96,17 @@
     'attach-restore': function() {
       log('[Events] Attaching Restore events')
 
+      addEventListener('#js-regenerate-keys', 'click', function(event) {
+        const { publicKey } = keys.generate()
+        session.removeAll()
+
+        getElementById('js-user-pubkey').value = publicKey
+        flash(event.currentTarget, 'data-balloon', 'Restored!')
+      })
+
       addEventListener('#js-restore-session', 'submit', function(event) {
         try {
-          let form = event.currentTarget
-          let textarea = form.elements[0]
+          let textarea = getFormElement(event.currentTarget, 'encrypted-data')
 
           session.restore(textarea.value)
           event.currentTarget.reset()
@@ -114,15 +117,25 @@
         }
       })
 
-      addEventListener('#js-regenerate-keys', 'click', function(event) {
-        const { publicKey } = keys.generate()
-        session.removeAll()
+      this.onTextSubmitted('[name="encrypted-data"]', function(textarea) {
+        const submitButton = document.querySelector('input[name="submit"]')
+        enableIfText(textarea.value, submitButton)
 
-        getElementById('js-user-pubkey').value = publicKey
-        flash(event.currentTarget, 'data-balloon', 'Restored!')
+        let notice = ''
+
+        try {
+          const { title, expirationTime } = session.decrypt(textarea.value)
+          notice = `Restore "${title}" session.`
+
+          if (timeout.isExpired(expirationTime)) notice += '\nThe session seems to be expired!'
+
+        } catch(e) {
+          notice = ''
+          console.warn(e)
+        }
+
+        getElementById('js-restore-notice').innerText = notice
       })
-
-      this.attachConditionalSubmitEvents({ source: 'data', target: 'submit' })
     },
 
     'attach-history': function() {
@@ -149,31 +162,31 @@
       addEventListener('.js-go-back', 'click', () => template.render('menu'))
     },
 
-    attachConditionalSubmitEvents: function(names) {
-      const sourceSelector = '[name="' + names.source + '"]'
-      const target = document.querySelector('input[name="' + names.target + '"]')
+    onTextSubmitted: function(selector, callback) {
+      addEventListener(selector, 'keyup', event => {
+        callback(event.currentTarget)
+      })
 
-      addEventListener(sourceSelector, 'keyup', event => enableOnText(event.currentTarget, target))
-
-      addEventListener(sourceSelector, 'paste', event => {
+      addEventListener(selector, 'paste', event => {
         const pastedData = event.clipboardData.getData('Text')
-
         window.document.execCommand('insertText', false, pastedData)
-        enableOnText(event.currentTarget, target)
+
+        callback(event.currentTarget)
       })
     }
   }
 
-  let session = {
-    store: function({ publicKey, expirationTime = 0 }, callback) {
+  const session = {
+    store: function(publicKey, expirationTime, callback) {
       this.getCurrent(function(tab, cookies) {
         let data = {
-          url    : tab.url,
-          cookies: cookieManager.setExpirationDate(cookies, expirationTime)
+          url: tab.url,
+          title: tab.title,
+          cookies: cookieManager.setExpirationDate(cookies, expirationTime),
+          expirationTime: expirationTime
         }
-        let encryptedData = keys.encrypt(publicKey, data)
 
-        console.log(data.cookies)
+        const encryptedData = keys.encrypt(publicKey, data)
 
         session.record(tab.url, tab.title)
         callback(encryptedData, tab)
@@ -205,25 +218,14 @@
     },
 
     restore: function(data) {
-      let { url, cookies } = keys.decrypt(data)
+      const { url, cookies } = this.decrypt(data)
 
       cookieManager.set(url, cookies)
       chrome.tabs.create({ url })
     },
 
-    filterOlderKeys: function(sessions) {
-      let currentMonth = new Date().getMonth()
-      let filteredSessions = {}
-
-      for (let key in sessions) {
-        let month = this.getMonthFromKey(key)
-
-        if (currentMonth == month) {
-          filteredSessions[key] = sessions[key]
-        }
-      }
-
-      return filteredSessions
+    decrypt(data) {
+      return keys.decrypt(data)
     },
 
     removeAll: function(key) {
@@ -252,6 +254,21 @@
         timestamp.getDate(),
         timestamp.getYear()
       ].join('/')
+    },
+
+    filterOlderKeys: function(sessions) {
+      let currentMonth = new Date().getMonth()
+      let filteredSessions = {}
+
+      for (let key in sessions) {
+        let month = this.getMonthFromKey(key)
+
+        if (currentMonth == month) {
+          filteredSessions[key] = sessions[key]
+        }
+      }
+
+      return filteredSessions
     },
 
     getMonthFromKey: function(key) {
@@ -304,6 +321,23 @@
     }
   }
 
+  const timeout = {
+    DEFAULT: 30 * 24 * 60, // A month
+
+    getExpirationTime(timeoutInMinutes) {
+      timeoutInMinutes = timeoutInMinutes || this.DEFAULT
+
+      return Date.now() + this.minutesToMs(timeoutInMinutes)
+    },
+
+    isExpired(time) {
+      return Date.now() >= time
+    },
+
+    minutesToMs(minutes) {
+      return minutes * 60 * 60 * 1000
+    }
+  }
 
   // --------------------------------------------------------------------
   // Utils
@@ -323,7 +357,7 @@
   }
 
   function showError(text) {
-    const errorEl = getElementById('js-error')
+    let errorEl = getElementById('js-error')
     errorEl.innerHTML = text
     flash(errorEl, 'className', 'error', 4500)
   }
@@ -354,8 +388,8 @@
     }
   }
 
-  function enableOnText(input, target) {
-    if (input.value.trim()) {
+  function enableIfText(value, target) {
+    if (value.trim()) {
       target.removeAttribute('disabled', false)
     } else {
       target.setAttribute('disabled', false)
@@ -363,7 +397,7 @@
   }
 
   function flash(element, prop, value, delay) {
-    let setVal = function(val) {
+    const setVal = function(val) {
       if (element[prop] === undefined) {
         element.setAttribute(prop, val)
       } else {

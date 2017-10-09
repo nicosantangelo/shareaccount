@@ -13,9 +13,8 @@
       })
     },
 
-    setExpirationDate: function(cookies, expirationTime = 0) {
-      const expirationDate = toUNIX(expirationTime)
-      if (! expirationDate) return cookies
+    setExpirationDate: function(cookies, expirationTime) {
+      const expirationDate = toUNIX(expirationTime || Date.now())
 
       return cookies.map(cookie => Object.assign(cookie, { expirationDate }))
     },

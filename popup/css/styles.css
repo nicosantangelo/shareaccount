@@ -174,7 +174,7 @@ hr {
 
 .explanation {
   font-size: 12px;
-  margin: 8px 0 25px;
+  margin-top: 8px;
   word-break: break-all;
 }
 
@@ -289,7 +289,7 @@ hr {
 }
 
 .restore .your-code {
-  margin-top: 20px;
+  margin-top: 25px;
 }
 
 .restore .your-code .action-icon {
@@ -321,6 +321,7 @@ hr {
 
 .sessions {
   max-height: 280px;
+  margin-top: 20px;
   margin-bottom: 15px;
   overflow: auto;
 }
