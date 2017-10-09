@@ -37,7 +37,7 @@ input {
 
 textarea {
   box-shadow: none;
-  padding: 10px 8px;
+  padding: 8px;
   box-sizing: border-box;
 }
 
@@ -56,8 +56,8 @@ input, textarea {
 }
 
 input:focus, textarea:focus {
-  outline: -webkit-focus-ring-color auto 2px;
-  outline-color: #F1B70F;
+  outline: none;
+  box-shadow: 0 -1px 2px 0 rgba(241, 183, 15, 0.7);
 }
 input[type="submit"]:focus {
   box-shadow: 0 2px 6px 0 #F1B70F;
