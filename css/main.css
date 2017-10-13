@@ -1,3 +1,41 @@
+@font-face {
+    font-family: "Source Sans Pro";
+    src: url('../fonts/sourcesanspro-regular-webfont.woff2') format('woff2'),
+         url('../fonts/sourcesanspro-regular-webfont.woff') format('woff'),
+         url('../fonts/sourcesanspro-regular-webfont.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: "Source Sans Pro SemiBold";
+    src: url('../fonts/sourcesanspro-semibold-webfont.woff2') format('woff2'),
+         url('../fonts/sourcesanspro-semibold-webfont.woff') format('woff'),
+         url('../fonts/sourcesanspro-semibold-webfont.ttf') format('truetype');
+         url('webfont.ttf') format('truetype')
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Source Sans Pro Bold";
+    src: url('../fonts/sourcesanspro-bold-webfont.woff2') format('woff2'),
+         url('../fonts/sourcesanspro-bold-webfont.woff') format('woff'),
+         url('../fonts/sourcesanspro-bold-webfont.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Source Sans Pro Light";
+    src: url('../fonts/sourcesanspro-light-webfont.woff2') format('woff2'),
+         url('../fonts/sourcesanspro-light-webfont.woff') format('woff'),
+         url('../fonts/sourcesanspro-light-webfont.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -10,6 +48,7 @@ body {
   min-height: 100%;
   background-color: #FFF;
   position: relative;
+  font-family: "Source Sans Pro", Helvetica, sans-serif;
 }
 
 a, .link {
@@ -25,39 +64,19 @@ a:hover, a:visited, .link:hover {
 
 .wrapper {
   height: 100%;
-  padding-top: 45px;
-}
-
-/* ----------------------------------- */
-
-.siema {
-  box-shadow: 0 5px 5px 0 rgba(76,108,231,0.12);
-}
-
-.siema-actions {
-  margin: 15px 0 45px;
-  text-align: center;
-}
-
-.disclaimer {
-  font-size: smaller;
-  display: inline-block;
-  vertical-align: middle;
-  color: #666;
 }
 
 /* ----------------------------------- */
 
 .logo {
-  width: 220px;
-  margin: 0 auto 45px;
+  width: 150px;
+  margin: 45px auto;
   padding: 0 12px;
 }
 
 @media (min-width: 768px) {
   .logo {
-    width: 300px;
-    min-height: 56px;
+    width: 220px;
     padding: 0;
   }
 }
@@ -65,18 +84,73 @@ a:hover, a:visited, .link:hover {
 
 /* ----------------------------------- */
 
+.slogan {
+  margin: 50px 0 70px;
+  font-size: 22px;
+}
+
 .description {
-  padding-bottom: 35px;
+  margin-bottom: 90px;
   font-size: 18px;
-  font-family: 'HelveticaNeue', Helvetica, sans-serif;
+}
+
+.slogan, .description {
   color: #868587;
   text-align: center;
 }
 
 @media (min-width: 768px) {
-  .description {
-    font-size: 22px;
+  .slogan {
+    font-size: 28px;
   }
+
+  .description {
+    font-size: 25px;
+  }
+}
+
+/* ----------------------------------- */
+
+.view-on-github {
+  margin-top: 2px;
+  font-size: 14px;
+  color: #868587;
+  font-style: italic;
+  font-family: "Source Sans Pro Light", Helvetica, sans-serif;
+  display: block;
+}
+.view-on-github:visited {
+  color: #868587;
+}
+
+/* ----------------------------------- */
+
+.graph-section {
+  margin-top: 160px;
+  margin-bottom: 85px;
+  padding: 35px 0;
+  background-color: rgba(255, 238, 173, 0.4);
+}
+
+.section-title {
+  margin-bottom: 80px;
+  font-size: 65px;
+  font-family: "Source Sans Pro Light", Helvetica, sans-serif;
+  text-align: center;
+}
+
+.step {
+  margin-bottom: 121px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.step-explanation {
+  margin: 0;
+  line-height: 30px;
+  font-size: 20px;
+  color: #313131;
 }
 
 /* ----------------------------------- */

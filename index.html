@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
-  <div class="wrapper container-fluid">
+  <section class="container-fluid">
     <div class="row">
       <div class="col-xs-12">
         <img src="images/logo.png" class="logo img-responsive" alt="ShareAccount logo" />
@@ -24,43 +24,83 @@
 
     <div class="row">
       <div class="col-xs-12 col-sm-offset-1 col-sm-10">
-        <p class="description">Chrome Extension to share your account <b>without</b> giving out your <b>password</b></p>
+        <p class="slogan">Chrome Extension to share your account <b>without</b><br/>giving out your <b>password</b></p>
       </div>
     </div>
 
     <div class="row">
-      <div class="col-xs-12 col-sm-offset-2 col-sm-8">
-        <div class="siema">
-          <img src="images/1.png" class="img-responsive" alt="Usage step 1">
-          <img src="images/2.png" class="img-responsive" alt="Usage step 2">
-          <img src="images/3.png" class="img-responsive" alt="Usage step 3">
-          <img src="images/4.png" class="img-responsive" alt="Usage step 4">
-          <img src="images/5.png" class="img-responsive" alt="Usage step 5">
-        </div>
-      </div>
-
-      <div class="col-xs-12 col-sm-offset-2 col-sm-8">
-        <div class="siema-actions">
-          <span id="js-prev" class="link pull-left hidden-xs">Previous</span>
-          <div class="disclaimer">This is only an example, you can use it with any account you like!</div>
-          <span id="js-next" class="link pull-right hidden-xs">Next</span>
-        </div>
+      <div class="col-xs-12 col-sm-offset-1 col-sm-10">
+        <p class="description">If you ever wanted to share your account to a site for a limited amount of time<br/>but couldn't find a good way to do it without giving away personal information, <b>ShareAccount</b> is for you</p>
       </div>
     </div>
 
+    <div class="row">
+      <div class="col-xs-12 text-center">
+        <a href="https://chrome.google.com/webstore/detail/glifngepkcmfolnojchcfiinmjgeablm" class="js-install-button button button-primary install-button">INSTALL</a>
+        <a href="https://github.com/NicoSantangelo/shareaccount" class="view-on-github" target="_blank">view on GitHub</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="container-fluid graph-section">
+    <div class="row">
+      <div class="col-xs-12">
+        <h2 class="section-title">How it works</h2>
+      </div>
+    </div>
+
+    <div class="row step">
+      <div class="col-sm-offset-1 col-sm-5">
+        <img src="images/graph-step-1.png" class="img-responsive" alt="First step" width="360">
+      </div>
+      <div class="col-sm-5">
+        <p class="step-explanation">
+          Find a friend you want to share an account with.<br />
+          Make sure both of you have <b>ShareAccount</b> installed.<br />
+          Open the site from where you want to share the account and click the extension icon.
+        </p>
+      </div>
+    </div>
+
+    <div class="row step">
+      <div class="col-sm-offset-1 col-sm-5">
+        <img src="images/graph-step-2.png" class="img-responsive" alt="Second step" width="360">
+      </div>
+      <div class="col-sm-5">
+        <p class="step-explanation">
+          Ask the recipient for their code (found on <i>USE ACCOUNT</i>)<br />
+          Press <i>SHARE ACCOUNT</i> and enter the code<br />
+          Press <i>SHARE</i> and copy the result.
+        </p>
+      </div>
+    </div>
+
+    <div class="row step">
+      <div class="col-sm-offset-1 col-sm-5">
+        <img src="images/graph-step-3.png" class="img-responsive" alt="Last step" width="360">
+      </div>
+      <div class="col-sm-5">
+        <p class="step-explanation">
+          Who only has to add it in the textbox of<br />
+          the <i>USE ACCOUNT</i> and press <i>RESTORE</i>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="container-fluid">
     <div class="row">
       <div class="col-xs-12">
         <div class="install-container">
-          <a href="https://chrome.google.com/webstore/detail/glifngepkcmfolnojchcfiinmjgeablm" id="js-install-button" class="button button-primary install-button">INSTALL</a>
+          <a href="https://chrome.google.com/webstore/detail/glifngepkcmfolnojchcfiinmjgeablm" class="js-install-button button button-primary install-button">INSTALL</a>
           <div class="extra-info">
             <a href="https://github.com/NicoSantangelo/shareaccount">More info</a>
           </div>
         </div>
       </div>
     </div>
-  </div>
+  </section>
 
-  <script src="js/siema.min.js"></script>
   <script src="js/main.js"></script>
 
   <script>
