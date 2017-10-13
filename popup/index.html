@@ -19,8 +19,8 @@
       </div>
 
       <section class="menu">
-        <button class="btn"     data-menu="share">Share session</button>
-        <button class="m-t btn" data-menu="restore">Restore session</button>
+        <button class="btn"     data-menu="share">Share account</button>
+        <button class="m-t btn" data-menu="restore">Receive account</button>
         <button class="m-t btn" data-menu="history">Share history</button>
       </section>
     </template>
@@ -28,11 +28,11 @@
 
     <template id="js-template-share">
       <section class="share">
-        <div class="title">Current Session</div>
+        <div class="title">Current Account</div>
         <div class="explanation">You're about to share your <i>"{{=tab.title}}"</i> session.</div>
 
         <form action="/" id="js-share-session" class="m-t">
-          <div class="small">Recipient code <span class="link" data-balloon="Paste the code of the person you want to share your extension with. It can be found on the 'Restore Session' seccion." data-balloon-length="medium-xl" data-balloon-pos="right">?</span></div>
+          <div class="small">Recipient code <span class="link" data-balloon="Paste the code of the person you want to share your extension with. It can be found on the 'Receive account' seccion." data-balloon-length="medium-xl" data-balloon-pos="right">?</span></div>
 
           <div class="input-container">
             <input type="text" name="pubkey" value="" placeholder="Code of the computer you're sharing with" autocomplete="off" required />
@@ -52,7 +52,7 @@
         </form>
 
         <div id="js-shared-session" class="shared-session hidden">
-          <div class="small">Encrypted session <span class="link" data-balloon="Share this text with the owner of the code" data-balloon-length="medium" data-balloon-pos="right">?</span> <span id="js-session-hide" class="link delete">x</span></div>
+          <div class="small">Share result <span class="link" data-balloon="Share this text with the owner of the code" data-balloon-length="medium" data-balloon-pos="right">?</span> <span id="js-session-hide" class="link delete">x</span></div>
 
           <pre id="js-shared-session-text" class="encrypted-data share-result"></pre>
 
@@ -69,7 +69,7 @@
               </div>
               <small>
                 &nbsp;
-                <span class="link" data-balloon="The site contains the encrypted session text. It'll be deleted in 10 minutes or upon the first viewing."  data-balloon-pos="right" data-balloon-length="large" data-balloon-pos="top">?</span>
+                <span class="link" data-balloon="The site contains the share result. It'll be deleted in 10 minutes or upon the first viewing."  data-balloon-pos="right" data-balloon-length="large" data-balloon-pos="top">?</span>
               </small>
             </div>
           </div>
@@ -82,20 +82,20 @@
 
     <template id="js-template-restore">
       <section class="restore">
-        <div class="title">Restore session</div>
-        <div class="explanation">Share your code with the session owner and paste the text he shares with you below</div>
+        <div class="title">Receive account</div>
+        <div class="explanation">Share your code with the account owner and paste the text he shares with you below</div>
 
         <div class="your-code">
           <div class="small">Your code</div>
           <input id="js-user-pubkey" name="pubkey" type="text" value="{{=publicKey}}" readonly />
           <div class="action-icon" data-balloon="Copy code" data-clipboard data-clipboard-target="#js-user-pubkey"><img src="./images/copy.svg" alt="Copy code" width="12" /></div>
 
-          <div id="js-regenerate-keys" class="action-icon" data-balloon="Regenerate code. Remember that by regenerating your code you'll loose your current one forever, so you won't be able or regerate old sessions." data-balloon-length="large" data-balloon-pos="left"><img src="./images/refresh.svg" alt="Regenerate code" width="12" /></div>
+          <div id="js-regenerate-keys" class="action-icon" data-balloon="Regenerate code. Remember that by regenerating your code you'll loose your current one forever, so you won't be able or regenerate old shares." data-balloon-length="large" data-balloon-pos="left"><img src="./images/refresh.svg" alt="Regenerate code" width="12" /></div>
         </div>
 
         <form action="/" id="js-restore-session" class="m-t">
           <div>
-            <div class="small">Encrypted session <span class="link" data-balloon="Paste the encrypted result shared with you. If you gave the sender you code, you'll be the only one able to decrypt it." data-balloon-length="medium" data-balloon-pos="right">?</span></div>
+            <div class="small">Share result <span class="link" data-balloon="Paste the share result here. If you gave the sender your code, you'll be the only one able to decrypt it." data-balloon-length="medium" data-balloon-pos="right">?</span></div>
 
             <textarea name="encrypted-data" placeholder='For example: {"iv":"C+Qfxtx6UM6YkQ7glsVsLg==", "v":1, "iter":10000, "ks":128, "ts":64, "mode":"ccm", "adata":"", "cipher":"aes", "kemtag":"dJN3vJbV4C", "ct":"psRDxcWb"}
 
@@ -105,7 +105,7 @@ Remember that the session might end at any time.' rows="10"></textarea>
 
           <div class="restore-session-actions flex-container">
             <div class="js-go-back go-back link">&lsaquo; back</div>
-            <input type="submit" name="submit" class="btn pull-right" value="Restore session" disabled />
+            <input type="submit" name="submit" class="btn pull-right" value="Receive" disabled />
           </div>
         </form>
       </section>
@@ -116,8 +116,8 @@ Remember that the session might end at any time.' rows="10"></textarea>
 
     <template id="js-template-history">
       <section class="history">
-        <div class="title">Shared sessions</div>
-        <div class="explanation">We only keep track of URLs and titles and only for a month, no sessions are stored</div>
+        <div class="title">Shared accounts</div>
+        <div class="explanation">We only keep track of URLs and titles and only for a month, nothing else is stored</div>
 
         <div class="sessions">
           {{hasSessions}}
@@ -132,7 +132,7 @@ Remember that the session might end at any time.' rows="10"></textarea>
               </ul>
             {{/@sessions}}
           {{:hasSessions}}
-            <div class="small">No shared sessions yet</div>
+            <div class="small">No shared accounts yet</div>
           {{/hasSessions}}
         </div>
 
