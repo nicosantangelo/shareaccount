@@ -49,6 +49,7 @@ body {
   background-color: #FFF;
   position: relative;
   font-family: "Source Sans Pro", Helvetica, sans-serif;
+  color: #313131;
 }
 
 a, .link {
@@ -69,14 +70,15 @@ a:hover, a:visited, .link:hover {
 /* ----------------------------------- */
 
 .logo {
-  width: 150px;
-  margin: 45px auto;
+  width: 190px;
+  margin: 35px auto;
   padding: 0 12px;
 }
 
 @media (min-width: 768px) {
   .logo {
     width: 220px;
+    margin: 45px auto;
     padding: 0;
   }
 }
@@ -85,12 +87,12 @@ a:hover, a:visited, .link:hover {
 /* ----------------------------------- */
 
 .slogan {
-  margin: 50px 0 70px;
+  margin: 40px 0 50px;
   font-size: 22px;
 }
 
 .description {
-  margin-bottom: 90px;
+  margin-bottom: 70px;
   font-size: 18px;
 }
 
@@ -101,10 +103,12 @@ a:hover, a:visited, .link:hover {
 
 @media (min-width: 768px) {
   .slogan {
+    margin: 50px 0 70px;
     font-size: 28px;
   }
 
   .description {
+    margin-bottom: 90px;
     font-size: 25px;
   }
 }
@@ -125,25 +129,36 @@ a:hover, a:visited, .link:hover {
 
 /* ----------------------------------- */
 
+.section-title {
+  font-size: 65px;
+  font-family: "Source Sans Pro Light", Helvetica, sans-serif;
+}
+
+@media (min-width: 768px) {
+  .flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+/* ----------------------------------- */
+
 .graph-section {
   margin-top: 160px;
   margin-bottom: 85px;
-  padding: 35px 0;
+  padding-top: 35px;
+  padding-bottom: 35px;
   background-color: rgba(255, 238, 173, 0.4);
 }
 
-.section-title {
+.step-title {
   margin-bottom: 80px;
-  font-size: 65px;
-  font-family: "Source Sans Pro Light", Helvetica, sans-serif;
   text-align: center;
 }
 
 .step {
   margin-bottom: 121px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .step-explanation {
@@ -151,6 +166,37 @@ a:hover, a:visited, .link:hover {
   line-height: 30px;
   font-size: 20px;
   color: #313131;
+}
+
+@media (max-width: 768px) {
+  .step img {
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 25px;
+  }
+
+  .step-explanation {
+    padding: 0 10px;
+  }
+}
+
+/* ----------------------------------- */
+
+.get-it-section {
+  margin-bottom: 85px;
+}
+
+.get-it-title {
+  margin-bottom: 27px;
+}
+
+.get-it-section-subtitle {
+  font-size: 25px;
+  font-family: "Source Sans Pro Light", Helvetica, sans-serif;
+}
+
+.get-it-section .install-button {
+  margin-top: 20px;
 }
 
 /* ----------------------------------- */
@@ -161,8 +207,6 @@ a:hover, a:visited, .link:hover {
 }
 
 .button {
-  padding: 10px 28px;
-  font-size: 16px;
   border-radius: 5px;
   border: none;
   color: #FFF;
@@ -172,21 +216,25 @@ a:hover, a:visited, .link:hover {
   vertical-align: middle;
   cursor: pointer;
   display: inline-block;
+  font-family: "Source Sans Pro SemiBold", Helvetica, sans-serif;
 }
 
-.button-primary {
+.install-button {
+  padding: 14px 60px;
+  font-size: 20px;
+  margin-bottom: 8px;
   background-color: #F2C40F;
-  color: #FFF;
 }
 
-.button-primary:hover, .button-primary:visited {
+.install-button:hover {
   background-color: #F1B70F;
   color: #FFF;
   text-decoration: none;
 }
 
-.install-button {
-  margin-bottom: 8px;
+.install-button:visited {
+  background-color: #F2C40F;
+  color: #FFF;
 }
 
 .installed-button {
@@ -202,17 +250,8 @@ a:hover, a:visited, .link:hover {
 }
 
 @media (min-width: 768px) {
-  .button {
-    font-size: 20px;
-  }
-
   .install-button {
-    padding: 10px 72px;
+    padding: 12px 65px;
+    font-size: 22px;
   }
-}
-
-/* ----------------------------------- */
-
-.extra-info {
-  font-size: smaller;
 }
