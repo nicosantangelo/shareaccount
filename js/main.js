@@ -13,11 +13,8 @@
         var href = this.href
 
         event.preventDefault()
-
-        chrome.webstore.install(href, function() {}, function() {
-          console.log('Whops, inline install failed, continue with default link')
-          window.location = href
-        })
+        ga('send', 'event', 'Button', 'click', 'Install')
+        window.location = href
       }, false)
     }
   }
