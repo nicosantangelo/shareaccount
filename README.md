@@ -4,6 +4,8 @@
 
 [Webstore](https://chrome.google.com/webstore/detail/shareaccount/glifngepkcmfolnojchcfiinmjgeablm)
 
+[Firefox add-on](https://addons.mozilla.org/en-US/firefox/addon/shareaccount/?src=search) (thanks to Hritwik!)
+
 ### What?
 
 Chrome Extension to share your account **without** giving out your **password**.
