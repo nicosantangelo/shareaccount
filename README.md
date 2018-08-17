@@ -23,7 +23,7 @@ Chrome Extension to share your account **without** giving out your **password**.
 
 ### How it works?
 
-The extension uses the Standford Javascript Crypto Lib implementation of EC-ElGamal. It generates a new public-private key combination for each extension upon frist use and uses it for encrypt/decrypt the session.
+The extension uses the Standford Javascript Crypto Lib implementation of EC-ElGamal. It generates a new public-private key combination for each extension upon first use and uses it to encrypt/decrypt the session.
 
 Appart for the keys, it doesn't store anything more than the URL/title of the sessions stored (to show them on the `ACCOUNT HISTORY` menu).
 
