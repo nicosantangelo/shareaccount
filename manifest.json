@@ -1,5 +1,5 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "ShareAccount",
   "description": "Share your current account with others without revealing your password, securely.",
   "short_name": "ShareAccount",
@@ -11,16 +11,20 @@
     "48": "icons/48.png",
     "128": "icons/128.png"
   },
-  "browser_action": {
+  "action": {
     "default_icon": "icons/19.png",
     "default_popup": "popup/index.html"
   },
   "permissions": [
     "tabs",
     "storage",
-    "cookies",
+    "cookies"
+  ],
+  "host_permissions": [
     "http://*/*",
     "https://*/*"
   ],
-  "content_security_policy": "default-src 'self' https://privatebin.net; script-src 'self' 'unsafe-eval' https://www.google-analytics.com; img-src 'self' https://www.google-analytics.com https://stats.g.doubleclick.net data:"
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'; connect-src 'self' https://privatebin.net"
+  }
 }
